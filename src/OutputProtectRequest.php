@@ -17,7 +17,7 @@ class OutputProtectRequest
             if(is_bool($allowExternalDisplay)){
                 $this->_allowExternalDisplay = $allowExternalDisplay;
             }else{
-                throw new PallyConTokenException(1009);
+                throw new PallyConTokenException(1015);
             }
         }
 
@@ -25,7 +25,7 @@ class OutputProtectRequest
             if(is_int($controlHdcp)){
                 $this->_controlHdcp = $controlHdcp;
             }else{
-                throw new PallyConTokenException(1010);
+                throw new PallyConTokenException(1016);
             }
         }
 

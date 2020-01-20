@@ -21,8 +21,7 @@ class SecurityPolicyRequest
             if(is_bool($hardwareDrm) ){
                 $this->_hardwareDrm = $hardwareDrm;
             }else{
-                throw new PallyConTokenException(1015);
-                throw new PallyConTokenException("The hardwareDrm must be boolean.", 1003);
+                throw new PallyConTokenException(1011);
             }
         }
         if(!empty($hardwareDrm)) {
@@ -34,14 +33,17 @@ class SecurityPolicyRequest
             if (is_bool($allowMobileAbnormalDevice)) {
                 $this->_allowMobileAbnormalDevice = $allowMobileAbnormalDevice;
             } else {
-                throw new PallyConTokenException(1016);
+                throw new PallyConTokenException(1012);
             }
         }
         if(!empty($playreadySecurityLevel)) {
             if (is_int($playreadySecurityLevel)) {
+                if(150 > $playreadySecurityLevel){
+                    throw new PallyConTokenException(1014);
+                }
                 $this->_playreadySecurityLevel = $playreadySecurityLevel;
             } else {
-                throw new PallyConTokenException(1017);
+                throw new PallyConTokenException(1013);
             }
         }
     }

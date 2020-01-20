@@ -15,12 +15,19 @@ class HlsAesRequest
      */
     public function __construct($key, $iv)
     {
-        if(preg_match('/[[:xdigit:]]{32}/', $key) && preg_match('/[[:xdigit:]]{32}/', $iv) ){
-            $this->_key = $key;
-            $this->_iv = $iv;
-        }else{
-            throw new PallyConTokenException(1006);
+        if(!$this->checkHex32($key)){
+            throw new PallyConTokenException(1017);
         }
+        if(!$this->checkHex32($iv)){
+            throw new PallyConTokenException(1018);
+        }
+        $this->_key = $key;
+        $this->_iv = $iv;
+
+    }
+
+    private function checkHex32($key){
+        return preg_match('/[[:xdigit:]]{32}/', $key);
     }
 
     public function toArray(){

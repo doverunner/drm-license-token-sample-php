@@ -69,7 +69,7 @@ class TokenBuilder
             $playbackPolicy = $this->_playbackPolicyRequest;
             if((0 != $playbackPolicy->getDuration() || "" != $playbackPolicy->getExpireDate())
                 && !$playbackPolicy->isLimit()){
-                throw new PallyConTokenException(1019);
+                throw new PallyConTokenException(1010);
             }
         }
     }

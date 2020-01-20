@@ -12,7 +12,7 @@ class NcgRequest
         if(preg_match('/[[:xdigit:]]{64}/', $cek)){
             $this->_cek=$cek;
         }else{
-            throw new PallyConTokenException(1018);
+            throw new PallyConTokenException(1022);
         }
     }
 

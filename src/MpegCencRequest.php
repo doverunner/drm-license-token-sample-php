@@ -11,22 +11,29 @@ class MpegCencRequest
 
     function __construct($keyId, $key, $iv=null)
     {
-        if(preg_match('/[[:xdigit:]]{32}/', $keyId) && preg_match('/[[:xdigit:]]{32}/', $key) ){
-            $this->_keyId = $keyId;
-            $this->_key = $key;
-        }else{
-            throw new PallyConTokenException(1007);
+        if(!$this->checkHex32($keyId)){
+            throw new PallyConTokenException(1019);
         }
+        if(!$this->checkHex32($key)){
+            throw new PallyConTokenException(1020);
+        }
+
+        $this->_keyId = $keyId;
+        $this->_key = $key;
 
         if( !empty($iv) ){
-            if(preg_match('/[[:xdigit:]]{32}/', $iv)){
+            if($this->checkHex32($keyId)){
                 $this->_iv = $iv;
             }else{
-                throw new PallyConTokenException(1008);
+                throw new PallyConTokenException(1021);
             }
         }
-
     }
+
+    private function checkHex32($key){
+        return preg_match('/[[:xdigit:]]{32}/', $key);
+    }
+
     public function toArray(){
         $arr= [];
         if(isset($this->_keyId)){

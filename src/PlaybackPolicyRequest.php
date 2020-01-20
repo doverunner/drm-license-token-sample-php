@@ -17,7 +17,7 @@ class PlaybackPolicyRequest {
             if(is_bool($limit)){
                 $this->_limit = $limit;
             }else{
-                throw new PallyConTokenException(1011);
+                throw new PallyConTokenException(1006);
             }
         }else{
             $this->_limit = $limit;
@@ -27,21 +27,21 @@ class PlaybackPolicyRequest {
             if(is_bool($persistent)){
                 $this->_persistent = $persistent;
             }else{
-                throw new PallyConTokenException(1012);
+                throw new PallyConTokenException(1007);
             }
         }
         if(!empty($duration)) {
             if(is_int($duration)){
                 $this->_duration = $duration;
             }else{
-                throw new PallyConTokenException(1013);
+                throw new PallyConTokenException(1008);
             }
         }
         if(!empty($expireDate)) {
             if(preg_match('/[0-9]{4}-[0,1][0-9]-[0-5][0-9]T[0-2][0-3]:[0-5][0-9]:[0-5][0-9]Z/', $expireDate)){
                 $this->_expireDate = $expireDate;
             }else{
-                throw new PallyConTokenException(1014);
+                throw new PallyConTokenException(1009);
             }
         }
     }
