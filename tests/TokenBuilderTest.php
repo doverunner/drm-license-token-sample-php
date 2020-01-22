@@ -29,7 +29,7 @@ class TokenBuilderTest extends TestCase{
         try {
             $tokenBuilder->playbackPolicy($playbackPolicyRequest)->build();
         }catch (PallyConTokenException $e){
-            $this->assertEquals(1019, $e->getCode());
+            $this->assertEquals(1010, $e->getCode());
         }
 
     }

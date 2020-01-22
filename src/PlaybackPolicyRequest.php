@@ -31,7 +31,7 @@ class PlaybackPolicyRequest {
             }
         }
         if(!empty($duration)) {
-            if(is_int($duration)){
+            if(is_numeric($duration)){
                 $this->_duration = $duration;
             }else{
                 throw new PallyConTokenException(1008);
