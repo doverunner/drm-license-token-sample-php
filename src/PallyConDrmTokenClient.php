@@ -98,7 +98,7 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
                 , "site_id"=> $this->_siteId
                 , "user_id"=> $this->_userId
                 , "cid"=> $this->_cid
-                , "token"=> $this->_encPolicy
+                , "policy"=> $this->_encPolicy
                 , "timestamp"=> $this->_timestamp
                 , "hash"=> $this->_hash]));
             return $result;
@@ -112,7 +112,7 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
             , "site_id"=> $this->_siteId?$this->_siteId:null
             , "user_id"=> $this->_userId?$this->_userId:null
             , "cid"=> $this->_cid?$this->_cid:null
-            , "token"=> $this->_encPolicy?$this->_encPolicy:null
+            , "policy"=> $this->_encPolicy?$this->_encPolicy:null
             , "timestamp"=> $this->_timestamp
             , "hash"=> $this->_hash?$this->_hash:null]);
     }
