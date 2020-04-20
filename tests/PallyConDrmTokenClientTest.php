@@ -94,8 +94,8 @@ class PallyConDrmTokenClientTest extends TestCase
 
         $securityPolicyReqeust = new SecurityPolicyRequest("ALL", $securityPolicyWidevine);
 
-        $hlsAesRequest = new HlsAesRequest("12345678123456781234567812345678", "12345678123456781234567812345678");
-        $mpegCencRequest = new MpegCencRequest("11345678123456781234567812345678", "11345678123456781234567812345678");
+        $hlsAesRequest = new HlsAesRequest("ALL", "12345678123456781234567812345678", "12345678123456781234567812345678");
+        $mpegCencRequest = new MpegCencRequest("ALL", "11345678123456781234567812345678", "11345678123456781234567812345678");
         $ncgRequest = new NcgRequest("1234567812345678123456781234567812345678123456781234567812345678");
 
         $externalKeyRequest = new ExternalKeyRequest(array($hlsAesRequest), array($mpegCencRequest), $ncgRequest);
