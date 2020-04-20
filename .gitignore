@@ -6,3 +6,6 @@
 
 # composer vendor
 /vendor
+
+# config
+/tests/config/config.php
