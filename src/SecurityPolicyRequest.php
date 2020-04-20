@@ -5,129 +5,134 @@ namespace PallyCon;
 
 
 use PallyCon\Exception\PallyConTokenException;
-use PallyCon\OutputProtectRequest;
 
 class SecurityPolicyRequest
 {
-    public $_hardwareDrm;
-    public $_outputProtect;
-    public $_allowMobileAbnormalDevice;
-    public $_playreadySecurityLevel;
+    public $_trackType;
+    public $_widevine;
+    public $_playready;
+    public $_fairplay;
+    public $_ncg;
 
-    public function __construct($hardwareDrm=false, OutputProtectRequest $outputProtectRequest=null
-                                    , $allowMobileAbnormalDevice=false, $playreadySecurityLevel=0)
+    public function __construct($trackType="ALL"
+                        , SecurityPolicyWidevine $securityPolicyWidevine=null
+                        , SecurityPolicyPlayReady $securityPolicyPlayReady=null
+                        , SecurityPolicyFairPlay $securityPolicyFairPlay=null
+                        , SecurityPolicyNcg $securityPolicyNcg=null)
     {
-        if(!empty($hardwareDrm)){
-            if(is_bool($hardwareDrm) ){
-                $this->_hardwareDrm = $hardwareDrm;
-            }else{
-                throw new PallyConTokenException(1011);
-            }
+        $this->_trackType = $trackType;
+        if(!empty($securityPolicyWidevine)){
+            $this->_widevine = $securityPolicyWidevine;
         }
-        if(!empty($hardwareDrm)) {
-            if (!empty($outputProtectRequest)) {
-                $this->_outputProtect = $outputProtectRequest;
-            }
+        if(!empty($securityPolicyPlayReady)){
+            $this->_playready = $securityPolicyPlayReady;
         }
-        if(!empty($allowMobileAbnormalDevice)) {
-            if (is_bool($allowMobileAbnormalDevice)) {
-                $this->_allowMobileAbnormalDevice = $allowMobileAbnormalDevice;
-            } else {
-                throw new PallyConTokenException(1012);
-            }
+        if(!empty($securityPolicyFairPlay)){
+            $this->_fairplay = $securityPolicyFairPlay;
         }
-        if(!empty($playreadySecurityLevel)) {
-            if (is_int($playreadySecurityLevel)) {
-                if(150 > $playreadySecurityLevel){
-                    throw new PallyConTokenException(1014);
-                }
-                $this->_playreadySecurityLevel = $playreadySecurityLevel;
-            } else {
-                throw new PallyConTokenException(1013);
-            }
+        if(!empty($securityPolicyNcg)){
+            $this->_ncg = $securityPolicyNcg;
         }
     }
 
     public function toArray(){
         $arr= [];
-        if(isset($this->_hardwareDrm)){
-            $arr["hardware_drm"] = $this->_hardwareDrm;
+        if(isset($this->_trackType)){
+            $arr["track_type"] = $this->_trackType;
         }
-        if(isset($this->_outputProtect)){
-            $arr["output_protect"] = $this->_outputProtect->toArray();
+        if(isset($this->_widevine)){
+            $arr["widevine"] = $this->_widevine->toArray();
         }
-        if(isset($this->_allowMobileAbnormalDevice)){
-            $arr["allow_mobile_abnormal_device"] = $this->_allowMobileAbnormalDevice;
+        if(isset($this->_playready)){
+            $arr["playready"] = $this->_playready->toArray();
         }
-        if(isset($this->_playreadySecurityLevel)){
-            $arr["playready_security_level"] = $this->_playreadySecurityLevel;
+        if(isset($this->_fairplay)){
+            $arr["fairplay"] = $this->_fairplay->toArray();
         }
+        if(isset($this->_ncg)){
+            $arr["ncg"] = $this->_ncg->toArray();
+        }
+
         return $arr;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getHardwareDrm()
+    public function getTrackType()
     {
-        return $this->_hardwareDrm;
+        return $this->_trackType;
     }
 
     /**
-     * @param mixed $hardwareDrm
+     * @param string $trackType
      */
-    public function setHardwareDrm($hardwareDrm)
+    public function setTrackType($trackType)
     {
-        $this->_hardwareDrm = $hardwareDrm;
+        $this->_trackType = $trackType;
     }
 
     /**
-     * @return mixed
+     * @return SecurityPolicyWidevine
      */
-    public function getOutputProtect()
+    public function getWidevine()
     {
-        return $this->_outputProtect;
+        return $this->_widevine;
     }
 
     /**
-     * @param mixed $outputProtect
+     * @param SecurityPolicyWidevine $widevine
      */
-    public function setOutputProtect($outputProtect)
+    public function setWidevine($widevine)
     {
-        $this->_outputProtect = $outputProtect;
+        $this->_widevine = $widevine;
     }
 
     /**
-     * @return mixed
+     * @return SecurityPolicyPlayReady
      */
-    public function getAllowMobileAbnormalDevice()
+    public function getPlayready()
     {
-        return $this->_allowMobileAbnormalDevice;
+        return $this->_playready;
     }
 
     /**
-     * @param mixed $allowMobileAbnormalDevice
+     * @param SecurityPolicyPlayReady $playready
      */
-    public function setAllowMobileAbnormalDevice($allowMobileAbnormalDevice)
+    public function setPlayready($playready)
     {
-        $this->_allowMobileAbnormalDevice = $allowMobileAbnormalDevice;
+        $this->_playready = $playready;
     }
 
     /**
-     * @return mixed
+     * @return SecurityPolicyFairPlay
      */
-    public function getPlayreadySecurityLevel()
+    public function getFairplay()
     {
-        return $this->_playreadySecurityLevel;
+        return $this->_fairplay;
     }
 
     /**
-     * @param mixed $playreadySecurityLevel
+     * @param SecurityPolicyFairPlay $fairplay
      */
-    public function setPlayreadySecurityLevel($playreadySecurityLevel)
+    public function setFairplay($fairplay)
     {
-        $this->_playreadySecurityLevel = $playreadySecurityLevel;
+        $this->_fairplay = $fairplay;
     }
 
+    /**
+     * @return SecurityPolicyNcg
+     */
+    public function getNcg()
+    {
+        return $this->_ncg;
+    }
 
+    /**
+     * @param SecurityPolicyNcg $ncg
+     */
+    public function setNcg($ncg)
+    {
+        $this->_ncg = $ncg;
+    }
 }
