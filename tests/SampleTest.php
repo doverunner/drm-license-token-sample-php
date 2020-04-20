@@ -89,8 +89,8 @@ class SampleTest extends TestCase
             $securityPolicyAll = new SecurityPolicyRequest("ALL", $securityPolicyWidevine
                                         , $securityPolicyPlayReady, $securityPolicyFairplay, $securityPolicyNcg);
 
-            $hlsAesRequest = new HlsAesRequest("123456781234FF781234567812345678", "123456781234FF781234567812345678");
-            $mpegCencRequest = new MpegCencRequest("113456781234FF781234567812345678", "113456781234FF781234567812345678");
+            $hlsAesRequest = new HlsAesRequest("ALL", "123456781234FF781234567812345678", "123456781234FF781234567812345678");
+            $mpegCencRequest = new MpegCencRequest("ALL", "113456781234FF781234567812345678", "113456781234FF781234567812345678");
             $ncgRequest = new NcgRequest("123456781234FF78123456781234567812345678123456781234567812345678");
             $externalKeyRequest = new ExternalKeyRequest(array($mpegCencRequest), array($hlsAesRequest), $ncgRequest);
 
@@ -143,10 +143,12 @@ class SampleTest extends TestCase
                 ]],
                 "external_key" => [
                     "mpeg_cenc" => [[
+                        "track_type" => "ALL",
                         "key_id" => "113456781234FF781234567812345678",
                         "key" => "113456781234FF781234567812345678"
                     ]],
                     "hls_aes" => [[
+                        "track_type" => "ALL",
                         "key" => "123456781234FF781234567812345678",
                         "iv" => "123456781234FF781234567812345678"
                     ]],

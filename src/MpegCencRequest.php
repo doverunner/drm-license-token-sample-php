@@ -5,12 +5,14 @@ use PallyCon\Exception\PallyConTokenException;
 
 class MpegCencRequest
 {
+    private $_trackType;
     public $_keyId;
     public $_key;
     public $_iv = null;
 
-    function __construct($keyId, $key, $iv=null)
+    function __construct($trackType="ALL", $keyId, $key, $iv=null)
     {
+        $this->_trackType = $trackType;
         if(!$this->checkHex32($keyId)){
             throw new PallyConTokenException(1040);
         }
@@ -36,6 +38,8 @@ class MpegCencRequest
 
     public function toArray(){
         $arr= [];
+
+        $arr["track_type"] = $this->_trackType;
         if(isset($this->_keyId)){
             $arr["key_id"] = $this->_keyId;
         }
