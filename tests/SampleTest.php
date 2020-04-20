@@ -9,7 +9,11 @@ use PallyCon\NcgRequest;
 use PallyCon\OutputProtectRequest;
 use PallyCon\PallyConDrmTokenClient;
 use PallyCon\PlaybackPolicyRequest;
+use PallyCon\SecurityPolicyFairplay;
+use PallyCon\SecurityPolicyNcg;
+use PallyCon\SecurityPolicyPlayReady;
 use PallyCon\SecurityPolicyRequest;
+use PallyCon\SecurityPolicyWidevine;
 use PallyCon\TokenBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +35,7 @@ class SampleTest extends TestCase
             /** --------------------------------------------------------
              * Sample Data
              */
-            $playbackPolicyRequest = new PlaybackPolicyRequest(false, false);
+            $playbackPolicyRequest = new PlaybackPolicyRequest(true, 1000);
 
             /**----------------------------------------------------------*/
 
@@ -53,15 +57,13 @@ class SampleTest extends TestCase
 
             $this->assertEquals(json_encode([
                 "playback_policy" => [
-                    "limit" => false]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
+                    "persistent" => true, "license_duration"=>1000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
 
-            echo json_encode($pallyConTokenClient->getPolicy()->toArray());
+            echo "testSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
         }catch (PallyConTokenException $e){
             $result = $e->toString();
         }
         echo $result;
-
-
 
     }
 
@@ -77,22 +79,27 @@ class SampleTest extends TestCase
             /** --------------------------------------------------------
              * Sample Data
              */
-            $playbackPolicyRequest = new PlaybackPolicyRequest(true, true, 0, "2020-01-15T00:00:00Z");
+            $playbackPolicyRequest = new PlaybackPolicyRequest( true, 0, "2020-01-15T00:00:00Z");
 
-            $outputProtectRequest = new OutputProtectRequest(true, 2);
-            $securityPolicyReqeust = new SecurityPolicyRequest(true, $outputProtectRequest, true, 150);
+            $securityPolicyWidevine = new SecurityPolicyWidevine(1, 'HDCP_V1');
+            $securityPolicyPlayReady = new SecurityPolicyPlayReady(3000, 200, 200);
+            $securityPolicyFairplay = new SecurityPolicyFairplay(1,true,false);
+            $securityPolicyNcg = new SecurityPolicyNcg(false, false, 1);
+
+            $securityPolicyAll = new SecurityPolicyRequest("ALL", $securityPolicyWidevine
+                                        , $securityPolicyPlayReady, $securityPolicyFairplay, $securityPolicyNcg);
 
             $hlsAesRequest = new HlsAesRequest("123456781234FF781234567812345678", "123456781234FF781234567812345678");
-            $mpegCencRequest = new MpegCencRequest("123456781234FF781234567812345678", "123456781234FF781234567812345678");
+            $mpegCencRequest = new MpegCencRequest("113456781234FF781234567812345678", "113456781234FF781234567812345678");
             $ncgRequest = new NcgRequest("123456781234FF78123456781234567812345678123456781234567812345678");
-            $externalKeyRequest = new ExternalKeyRequest($hlsAesRequest, $mpegCencRequest, $ncgRequest);
+            $externalKeyRequest = new ExternalKeyRequest(array($mpegCencRequest), array($hlsAesRequest), $ncgRequest);
 
             /*----------------------------------------------------------*/
 
             /* create token rule build*/
             $policyRequest = (new TokenBuilder)
                 ->playbackPolicy($playbackPolicyRequest)
-                ->securityPolicy($securityPolicyReqeust)
+                ->securityPolicy(array($securityPolicyAll))
                 ->externalKey($externalKeyRequest)
                 ->build();
 
@@ -109,28 +116,40 @@ class SampleTest extends TestCase
 
             $this->assertEquals(json_encode([
                 "playback_policy" => [
-                    "limit" => true,
                     "persistent" => true,
                     "expire_date" => "2020-01-15T00:00:00Z"
                 ],
-                "security_policy" => [
-                    "hardware_drm" => true,
-                    "output_protect" => [
-                        "allow_external_display" => true,
-                        "control_hdcp" => 2
+                "security_policy" => [[
+                    "track_type" => "ALL",
+                    "widevine" => [
+                        "security_level" => 1,
+                        "required_hdcp_version" => "HDCP_V1"
                     ],
-                    "allow_mobile_abnormal_device" => true,
-                    "playready_security_level" => 150
-                ],
+                    "playready" =>[
+                        "security_level"=>3000,
+                        "digital_video_protection_level" => 200,
+                        "analog_video_protection_level" => 200
+                    ],
+                    "fairplay" =>[
+                        "hdcp_enforcement"=>1,
+                        "allow_airplay"=>true,
+                        "allow_av_adapter"=>false
+                    ],
+                    "ncg" =>[
+                        "allow_mobile_abnormal_device"=>false,
+                        "allow_external_display"=>false,
+                        "control_hdcp"=>1
+                    ]
+                ]],
                 "external_key" => [
-                    "mpeg_cenc" => [
-                        "key_id" => "123456781234FF781234567812345678",
-                        "key" => "123456781234FF781234567812345678"
-                    ],
-                    "hls_aes" => [
+                    "mpeg_cenc" => [[
+                        "key_id" => "113456781234FF781234567812345678",
+                        "key" => "113456781234FF781234567812345678"
+                    ]],
+                    "hls_aes" => [[
                         "key" => "123456781234FF781234567812345678",
                         "iv" => "123456781234FF781234567812345678"
-                    ],
+                    ]],
                     "ncg" => [
                         "cek" => "123456781234FF78123456781234567812345678123456781234567812345678"
                     ],
@@ -143,6 +162,6 @@ class SampleTest extends TestCase
             $result = $e->toString();
         }
 
-        echo $result;
+        echo "testFullRuleSample : " . $result . "\n";
     }
 }

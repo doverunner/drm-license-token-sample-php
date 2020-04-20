@@ -16,10 +16,10 @@ class HlsAesRequest
     public function __construct($key, $iv)
     {
         if(!$this->checkHex32($key)){
-            throw new PallyConTokenException(1017);
+            throw new PallyConTokenException(1044);
         }
         if(!$this->checkHex32($iv)){
-            throw new PallyConTokenException(1018);
+            throw new PallyConTokenException(1045);
         }
         $this->_key = $key;
         $this->_iv = $iv;
