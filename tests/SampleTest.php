@@ -112,6 +112,7 @@ class SampleTest extends TestCase
                 ->userId("testUser")
                 ->cid("testCID")
                 ->policy($policyRequest)
+                ->responseFormat("custom")
                 ->execute();
 
             $this->assertEquals(json_encode([
@@ -159,7 +160,7 @@ class SampleTest extends TestCase
 
             ]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
 
-
+            $this->assertEquals("custom", $pallyConTokenClient->getResponseFormat());
         }catch (PallyConTokenException $e){
             $result = $e->toString();
         }
