@@ -19,7 +19,7 @@ class SecurityPolicyWidevine
         if(is_numeric($securityLevel)){
             $this->_securityLevel = $securityLevel;
         }else{
-            throw new PallyConTokenException(1101);
+            throw new PallyConTokenException(1022);
         }
         if(!empty($requiredHdcpVersion)){
             $this->_requiredHdcpVersion = $requiredHdcpVersion;

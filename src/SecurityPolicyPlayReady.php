@@ -10,56 +10,47 @@ class SecurityPolicyPlayReady
     public $_securityLevel;
     public $_digitalVideoProtectionLevel;
     public $_analogVideoProtectionLevel;
-    public $_compressedDigitalAudioProtectionLevel;
-    public $_uncompressedDigitalAudioProtectionLevel;
+    public $_digitalAudioProtectionLevel;
     public $_requireHdcpType1;
 
 
     public function __construct($securityLevel=150
                                     , $digitalVideoProtectionLevel=null
                                     , $analogVideoProtectionLevel=null
-                                    , $compressedDigitalAudioProtectionLevel=null
-                                    , $uncompressedDigitalAudioProtectionLevel=null
+                                    , $digitalAudioProtectionLevel=null
                                     , $requireHdcpType1= null)
     {
         if(is_numeric($securityLevel)){
             $this->_securityLevel = $securityLevel;
         }else{
-            throw new PallyConTokenException(1102);
+            throw new PallyConTokenException(1027);
         }
         if(!empty($digitalVideoProtectionLevel)) {
             if (is_numeric($digitalVideoProtectionLevel)) {
                 $this->_digitalVideoProtectionLevel = $digitalVideoProtectionLevel;
             } else {
-                throw new PallyConTokenException(1103);
+                throw new PallyConTokenException(1028);
             }
         }
         if(!empty($analogVideoProtectionLevel)) {
             if (is_numeric($analogVideoProtectionLevel)) {
                 $this->_analogVideoProtectionLevel = $analogVideoProtectionLevel;
             } else {
-                throw new PallyConTokenException(1104);
+                throw new PallyConTokenException(1029);
             }
         }
-        if(!empty($compressedDigitalAudioProtectionLevel)) {
-            if (is_numeric($compressedDigitalAudioProtectionLevel)) {
-                $this->_compressedDigitalAudioProtectionLevel = $compressedDigitalAudioProtectionLevel;
+        if(!empty($digitalAudioProtectionLevel)) {
+            if (is_numeric($digitalAudioProtectionLevel)) {
+                $this->_digitalAudioProtectionLevel = $digitalAudioProtectionLevel;
             } else {
-                throw new PallyConTokenException(1105);
-            }
-        }
-        if(!empty($uncompressedDigitalAudioProtectionLevel)) {
-            if (is_numeric($uncompressedDigitalAudioProtectionLevel)) {
-                $this->_uncompressedDigitalAudioProtectionLevel = $uncompressedDigitalAudioProtectionLevel;
-            } else {
-                throw new PallyConTokenException(1106);
+                throw new PallyConTokenException(1030);
             }
         }
         if(!empty($requireHdcpType1)) {
             if (is_bool($requireHdcpType1)) {
                 $this->_requireHdcpType1 = $requireHdcpType1;
             } else {
-                throw new PallyConTokenException(1107);
+                throw new PallyConTokenException(1032);
             }
         }
     }
@@ -76,11 +67,8 @@ class SecurityPolicyPlayReady
         if (isset($this->_analogVideoProtectionLevel)) {
             $arr["analog_video_protection_level"] = $this->_analogVideoProtectionLevel;
         }
-        if (isset($this->_compressedDigitalAudioProtectionLevel)) {
-            $arr["compressed_digital_audio_protection_level"] = $this->_compressedDigitalAudioProtectionLevel;
-        }
-        if (isset($this->_uncompressedDigitalAudioProtectionLevel)) {
-            $arr["uncompressed_digital_audio_protection_level"] = $this->_uncompressedDigitalAudioProtectionLevel;
+        if (isset($this->_digitalAudioProtectionLevel)) {
+            $arr["digital_audio_protection_level"] = $this->_digitalAudioProtectionLevel;
         }
         if (isset($this->_requireHdcpType1)) {
             $arr["require_hdcp_type1"] = $this->_requireHdcpType1;
@@ -140,34 +128,20 @@ class SecurityPolicyPlayReady
     /**
      * @return int|string
      */
-    public function getCompressedDigitalAudioProtectionLevel()
+    public function getDigitalAudioProtectionLevel()
     {
-        return $this->_compressedDigitalAudioProtectionLevel;
+        return $this->_digitalAudioProtectionLevel;
     }
 
     /**
-     * @param int|string $compressedDigitalAudioProtectionLevel
+     * @param int|string $digitalAudioProtectionLevel
      */
-    public function setCompressedDigitalAudioProtectionLevel($compressedDigitalAudioProtectionLevel)
+    public function setDigitalAudioProtectionLevel($digitalAudioProtectionLevel)
     {
-        $this->_compressedDigitalAudioProtectionLevel = $compressedDigitalAudioProtectionLevel;
+        $this->_digitalAudioProtectionLevel = $digitalAudioProtectionLevel;
     }
 
-    /**
-     * @return int|string
-     */
-    public function getUncompressedDigitalAudioProtectionLevel()
-    {
-        return $this->_uncompressedDigitalAudioProtectionLevel;
-    }
 
-    /**
-     * @param int|string $uncompressedDigitalAudioProtectionLevel
-     */
-    public function setUncompressedDigitalAudioProtectionLevel($uncompressedDigitalAudioProtectionLevel)
-    {
-        $this->_uncompressedDigitalAudioProtectionLevel = $uncompressedDigitalAudioProtectionLevel;
-    }
 
     /**
      * @return bool
