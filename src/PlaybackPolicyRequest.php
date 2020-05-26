@@ -8,75 +8,50 @@ use PallyCon\Exception\PallyConTokenException;
 class PlaybackPolicyRequest {
     public $_limit;
     public $_persistent;
-    public $_duration;
+    public $_licenseDuration;
     public $_expireDate;
+    public $_allowedTrackTypes;
 
-    public function __construct($limit=false, $persistent=false, $duration=0, $expireDate= "")
+    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "")
     {
-        if(!empty($limit)) {
-            if(is_bool($limit)){
-                $this->_limit = $limit;
-            }else{
-                throw new PallyConTokenException(1006);
-            }
-        }else{
-            $this->_limit = $limit;
-        }
-
-        if(!empty($persistent)) {
+        if(!is_null($persistent)) {
             if(is_bool($persistent)){
                 $this->_persistent = $persistent;
             }else{
-                throw new PallyConTokenException(1007);
+                throw new PallyConTokenException(1009);
             }
         }
-        if(!empty($duration)) {
-            if(is_numeric($duration)){
-                $this->_duration = $duration;
+        if(!empty($licenseDuration)) {
+            if(is_numeric($licenseDuration)){
+                $this->_licenseDuration = $licenseDuration;
             }else{
-                throw new PallyConTokenException(1008);
+                throw new PallyConTokenException(1010);
             }
         }
         if(!empty($expireDate)) {
             if(preg_match('/[0-9]{4}-[0,1][0-9]-[0-5][0-9]T[0-2][0-3]:[0-5][0-9]:[0-5][0-9]Z/', $expireDate)){
                 $this->_expireDate = $expireDate;
             }else{
-                throw new PallyConTokenException(1009);
+                throw new PallyConTokenException(1011);
             }
         }
     }
 
     public function toArray(){
         $arr= [];
-        if(isset($this->_limit)){
-            $arr["limit"] = $this->_limit;
-        }
         if(isset($this->_persistent)){
             $arr["persistent"] = $this->_persistent;
         }
-        if(isset($this->_duration)){
-            $arr["duration"] = $this->_duration;
+        if(isset($this->_licenseDuration)){
+            $arr["license_duration"] = $this->_licenseDuration;
         }
         if(isset($this->_expireDate)){
             $arr["expire_date"] = $this->_expireDate;
         }
+        if(isset($this->_allowedTrackTypes)){
+            $arr["allowed_track_types"] = $this->_allowedTrackTypes;
+        }
         return $arr;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLimit()
-    {
-        return $this->_limit;
-    }
-
-    /**
-     * @param bool $limit
-     */
-    public function setLimit($limit)
-    {
-        $this->_limit = $limit;
     }
 
     /**
@@ -96,19 +71,19 @@ class PlaybackPolicyRequest {
     }
 
     /**
-     * @return int
+     * @return int|string
      */
-    public function getDuration()
+    public function getLicenseDuration()
     {
-        return $this->_duration;
+        return $this->_licenseDuration;
     }
 
     /**
-     * @param int $duration
+     * @param int|string $licenseDuration
      */
-    public function setDuration($duration)
+    public function setLicenseDuration($licenseDuration)
     {
-        $this->_duration = $duration;
+        $this->_licenseDuration = $licenseDuration;
     }
 
     /**
@@ -125,6 +100,22 @@ class PlaybackPolicyRequest {
     public function setExpireDate($expireDate)
     {
         $this->_expireDate = $expireDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllowedTrackTypes()
+    {
+        return $this->_allowedTrackTypes;
+    }
+
+    /**
+     * @param mixed $allowedTrackTypes
+     */
+    public function setAllowedTrackTypes($allowedTrackTypes)
+    {
+        $this->_allowedTrackTypes = $allowedTrackTypes;
     }
 
 
