@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', "1");
 
 
+use PallyCon\SecurityPolicyWidevine;
 use PHPUnit\Framework\TestCase;
 
 use PallyCon\Exception\PallyConTokenException;
@@ -46,40 +47,40 @@ class PallyConDrmTokenClientTest extends TestCase
         try{
             $pallyconTokenDrmClient->execute();
         }catch (PallyConTokenException $e){
-            echo $e->getCode();
+            echo $e->getCode() . "\n";
             $this->assertEquals(1000, $e->getCode());
         }
 
         try{
             $pallyconTokenDrmClient->userId("testUser")->execute();
         }catch (PallyConTokenException $e){
-            echo $e->getCode();
+            echo $e->getCode(). "\n";
             $this->assertEquals(1001, $e->getCode());
         }
 
         try{
             $pallyconTokenDrmClient->cid("test-cid")->execute();
         }catch (PallyConTokenException $e){
-            echo $e->getCode();
+            echo $e->getCode(). "\n";
             $this->assertEquals(1002, $e->getCode());
         }
 
         try{
             $pallyconTokenDrmClient->siteId($this->_config["siteId"])->execute();
         }catch (PallyConTokenException $e){
-            echo $e->getCode();
+            echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
         try{
             $pallyconTokenDrmClient->siteId($this->_config["accessKey"])->execute();
         }catch (PallyConTokenException $e){
-            echo $e->getCode();
+            echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
         try{
             $pallyconTokenDrmClient->siteId($this->_config["siteKey"])->execute();
         }catch (PallyConTokenException $e){
-            echo $e->getCode();
+            echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
     }
@@ -87,26 +88,29 @@ class PallyConDrmTokenClientTest extends TestCase
     {
         $pallyconTokenDrmClient = new PallyConDrmTokenClient();
 
-        $playbackPolicyRequest = new PlaybackPolicyRequest(true, true, 0, "2020-01-15T00:00:00Z");
+        $playbackPolicyRequest = new PlaybackPolicyRequest(true, 0, "2020-01-15T00:00:00Z");
 
-        $outputProtectRequest = new OutputProtectRequest(true, 2);
-        $securityPolicyReqeust = new SecurityPolicyRequest(true, $outputProtectRequest, true, 150);
+        $securityPolicyWidevine = new SecurityPolicyWidevine(5);
 
-        $hlsAesRequest = new HlsAesRequest("12345678123456781234567812345678", "12345678123456781234567812345678");
-        $mpegCencRequest = new MpegCencRequest("12345678123456781234567812345678", "12345678123456781234567812345678");
+        $securityPolicyReqeust = new SecurityPolicyRequest("ALL", $securityPolicyWidevine);
+
+        $hlsAesRequest = new HlsAesRequest("ALL", "12345678123456781234567812345678", "12345678123456781234567812345678");
+        $mpegCencRequest = new MpegCencRequest("ALL", "11345678123456781234567812345678", "11345678123456781234567812345678");
         $ncgRequest = new NcgRequest("1234567812345678123456781234567812345678123456781234567812345678");
-        $externalKeyRequest = new ExternalKeyRequest($hlsAesRequest, $mpegCencRequest, $ncgRequest);
+
+        $externalKeyRequest = new ExternalKeyRequest(array($hlsAesRequest), array($mpegCencRequest), $ncgRequest);
 
 
         /* create token rule */
         $policyRequest = (new TokenBuilder)
             ->playbackPolicy($playbackPolicyRequest)
-            ->securityPolicy($securityPolicyReqeust)
+            ->securityPolicy(array($securityPolicyReqeust))
             ->externalKey($externalKeyRequest)
             ->build();
 
         $pallyconTokenDrmClient->playready()
             ->siteId($this->_config["siteId"]);
 
+        echo("testFullRule : ".$policyRequest->toJsonString());
     }
 }
