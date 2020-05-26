@@ -2,14 +2,14 @@
 namespace PallyCon;
 use PallyCon\ExternalKeyRequest;
 use PallyCon\PlaybackPolicyRequest;
-use PallyCon\SecurityPolicyRequest;
 use PallyCon\PolicyRequest;
+use PallyCon\SecurityPolicyRequest;
 use PallyCon\Exception\PallyConTokenException;
 
 class TokenBuilder
 {
     private $_playbackPolicyRequest;
-    private $_securityPolicyRequest;
+    private $_securityPolicyRequestArr;
     private $_externalKeyRequest;
 
     /**
@@ -25,12 +25,12 @@ class TokenBuilder
     }
 
     /**
-     * @param mixed $securityPolicyRequest
+     * @param mixed $securityPolicyRequestArr
      * @return TokenBuilder
      */
-    public function securityPolicy(SecurityPolicyRequest $securityPolicyRequest){
-        if(!empty($securityPolicyRequest)) {
-            $this->_securityPolicyRequest = $securityPolicyRequest;
+    public function securityPolicy($securityPolicyRequestArr){
+        if(!empty($securityPolicyRequestArr)) {
+            $this->_securityPolicyRequestArr = $securityPolicyRequestArr;
         }
         return $this;
     }
@@ -49,33 +49,14 @@ class TokenBuilder
 
     public function build()
     {
-        try {
-            $policyRequest = new PolicyRequest($this->_playbackPolicyRequest
-                , $this->_securityPolicyRequest
-                , $this->_externalKeyRequest);
-            $this->checkValidation();
-        }catch (PallyConTokenException $e){
-            throw $e;
-        }
+        $policyRequest = new PolicyRequest($this->_playbackPolicyRequest
+            , $this->_securityPolicyRequestArr
+            , $this->_externalKeyRequest);
         return $policyRequest;
     }
 
     /**
-     * @throws PallyConTokenException
-     */
-    private function checkValidation()
-    {
-        if(!empty($this->_playbackPolicyRequest)){
-            $playbackPolicy = $this->_playbackPolicyRequest;
-            if((0 != $playbackPolicy->getDuration() || "" != $playbackPolicy->getExpireDate())
-                && !$playbackPolicy->isLimit()){
-                throw new PallyConTokenException(1010);
-            }
-        }
-    }
-
-    /**
-     * @return mixed
+     * @return playbakcPolicyRequest
      */
     public function getPlaybackPolicyRequest()
     {
@@ -83,16 +64,16 @@ class TokenBuilder
     }
 
     /**
-     * @return mixed
+     * @return securityPolicyRequest Array
      */
     public function getSecurityPolicyRequest()
     {
-        return $this->_securityPolicyRequest;
+        return $this->_securityPolicyRequestArr;
     }
 
 
     /**
-     * @return mixed
+     * @return externalKeyRequest
      */
     public function getExternalKeyRequest()
     {
