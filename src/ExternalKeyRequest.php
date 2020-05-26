@@ -1,45 +1,58 @@
 <?php
 namespace PallyCon;
 
+use PallyCon\Exception\PallyConTokenException;
 use PallyCon\HlsAesRequest;
 use PallyCon\MpegCencRequest;
 use PallyCon\NcgRequest;
 
 class ExternalKeyRequest
 {
-    public $_mpegCenc;
-    public $_hlsAes;
+    public $_mpegCenc =[];
+    public $_hlsAes = [];
     public $_ncg;
 
     /**
-     * HlsAesRequest constructor.
-     * @param HlsAesRequest|null $hlsAesRequest
-     * @param MpegCencRequest|null $mpegCencRequest
-     * @param NcgRequest|null $ncgRequest
+     * ExternalKeyRequest constructor.
+     * @param null $mpegCencRequest
+     * @param null $hlsAesRequest
+     * @param null $ncgRequest
      */
-    public function __construct(HlsAesRequest $hlsAesRequest=null
-                                , MpegCencRequest $mpegCencRequest=null
-                                , NcgRequest $ncgRequest=null)
+    public function __construct($mpegCencRequest=null
+                                , $hlsAesRequest=null
+                                , $ncgRequest=null)
     {
+        if(!empty($mpegCencRequest)){
+            $this->_mpegCenc = $mpegCencRequest;
+        }
+
         if(!empty($hlsAesRequest)){
             $this->_hlsAes = $hlsAesRequest;
         }
-        if(!empty($hlsAesRequest)){
-            $this->_mpegCenc = $mpegCencRequest;
-        }
-        if(!empty($hlsAesRequest)){
+
+        if(!empty($ncgRequest)){
             $this->_ncg = $ncgRequest;
         }
     }
 
     public function toArray(){
         $arr= [];
+        $mpegCencArr = [];
+        $hlsAesArr = [];
+
         if(isset($this->_mpegCenc)){
-            $arr["mpeg_cenc"] = $this->_mpegCenc->toArray();
+            foreach ($this->_mpegCenc as $mpegCenc) {
+                array_push($mpegCencArr, $mpegCenc->toArray());
+            }
+            $arr["mpeg_cenc"] = $mpegCencArr;
         }
         if(isset($this->_hlsAes)){
-            $arr["hls_aes"] = $this->_hlsAes->toArray();
+            foreach ($this->_hlsAes as $hlsAes) {
+                array_push($hlsAesArr, $hlsAes->toArray());
+            }
+            $arr["hls_aes"] = $hlsAesArr;
         }
+
         if(isset($this->_ncg)){
             $arr["ncg"] = $this->_ncg->toArray();
         }
@@ -48,51 +61,68 @@ class ExternalKeyRequest
     }
 
     /**
-     * @return MpegCencRequest
+     * @return array|\PallyCon\MpegCencRequest|null
      */
-    public function getMpegCencRequest()
+    public function getMpegCenc()
     {
         return $this->_mpegCenc;
     }
 
     /**
-     * @param MpegCencRequest $mpegCencRequest
+     * @param array|\PallyCon\MpegCencRequest|null $mpegCenc
      */
-    public function setMpegCencRequest($mpegCencRequest)
+    public function setMpegCenc($mpegCenc)
     {
-        $this->_mpegCenc = $mpegCencRequest;
+        if(is_array($mpegCenc)){
+            $this->_mpegCenc = $mpegCenc;
+        }else{
+            throw new PallyConTokenException(1019);
+        }
+
+    }
+
+    public function pushMpegCenc(MpegCencRequest $mpegCenc){
+        array_push($this->_mpegCenc, $mpegCenc);
     }
 
     /**
-     * @return HlsAesRequest
+     * @return array|\PallyCon\HlsAesRequest|null
      */
-    public function getHlsAesRequest()
+    public function getHlsAes()
     {
         return $this->_hlsAes;
     }
 
     /**
-     * @param HlsAesRequest $hlsAesRequest
+     * @param array|\PallyCon\HlsAesRequest|null $hlsAes
      */
-    public function setHlsAesRequest($hlsAesRequest)
+    public function setHlsAes($hlsAes)
     {
-        $this->_hlsAes = $hlsAesRequest;
+        if(is_array($hlsAes)){
+            $this->_hlsAes = $hlsAes;
+        }else{
+            throw new PallyConTokenException(1020);
+        }
+    }
+
+    public function pushHlsAes(HlsAesRequest $hlsAes){
+        array_push($this->_HlsAes, $hlsAes);
     }
 
     /**
-     * @return NcgRequest
+     * @return array|\PallyCon\NcgRequest|null
      */
-    public function getNcgRequest()
+    public function getNcg()
     {
         return $this->_ncg;
     }
 
     /**
-     * @param NcgRequest $ncgRequest
+     * @param array|\PallyCon\NcgRequest|null $ncg
      */
-    public function setNcgRequest($ncgRequest)
+    public function setNcg(NcgRequest $ncg)
     {
-        $this->_ncg = $ncgRequest;
+        $this->_ncg = $ncg;
     }
 
 }

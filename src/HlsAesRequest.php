@@ -5,22 +5,26 @@ use PallyCon\Exception\PallyConTokenException;
 
 class HlsAesRequest
 {
+    private $_trackType;
     private $_key;
     private $_iv;
+
     /**
      * HlsAesRequest constructor.
+     * @param string $trackType
      * @param $key
      * @param $iv
      * @throws PallyConTokenException
      */
-    public function __construct($key, $iv)
+    public function __construct($trackType="ALL", $key, $iv)
     {
         if(!$this->checkHex32($key)){
-            throw new PallyConTokenException(1017);
+            throw new PallyConTokenException(1044);
         }
         if(!$this->checkHex32($iv)){
-            throw new PallyConTokenException(1018);
+            throw new PallyConTokenException(1045);
         }
+        $this->_trackType = $trackType;
         $this->_key = $key;
         $this->_iv = $iv;
 
@@ -32,6 +36,8 @@ class HlsAesRequest
 
     public function toArray(){
         $arr= [];
+
+        $arr["track_type"] = $this->_trackType;
         if(isset($this->_key)){
             $arr["key"] = $this->_key;
         }
