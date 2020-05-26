@@ -18,14 +18,14 @@ class PlaybackPolicyRequest {
             if(is_bool($persistent)){
                 $this->_persistent = $persistent;
             }else{
-                throw new PallyConTokenException(1007);
+                throw new PallyConTokenException(1009);
             }
         }
         if(!empty($licenseDuration)) {
             if(is_numeric($licenseDuration)){
                 $this->_licenseDuration = $licenseDuration;
             }else{
-                throw new PallyConTokenException(1008);
+                throw new PallyConTokenException(1010);
             }
         }
         if(!empty($expireDate)) {
