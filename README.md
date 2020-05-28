@@ -5,6 +5,7 @@
 - autoloader 를 사용하기 위해서는 Composer를 통해 설치. 
 
 ## Quick Example
+tests/SampleTest.php 참조.
 ```php
 <?php
 // Require the Composer autoloader.
@@ -22,13 +23,21 @@ try{
     $pallyConTokenClient = new PallyConDrmTokenClient();
     
     /* playback policy 룰 생성 */
-    // https://pallycon.com/docs/en/multidrm/license/license-token/#playback-policy 
-    $playbackPolicyRequest = new PlaybackPolicyRequest(false, false);
+    // https://pallycon.com/docs/en/multidrm/license/license-token/#playback-policy
+    
+    //persistent : true / duration : 600
+    $playbackPolicyRequest = new PlaybackPolicyRequest(true, 600);
+    
+    //SecurityPolicy: SecurityPolicyRequest.php
+    //$securityPolicyRequest = new SecurityPolicyRequest("ALL");
+    
+    //ExternalKey: ExternalkeyRequest.php
     
     /* 생성한 룰들을 합쳐서 빌드 */
     //https://pallycon.com/docs/en/multidrm/license/license-token/#token-rule-json
     $policyRequest = (new TokenBuilder)
         ->playbackPolicy($playbackPolicyRequest)
+    //->securityPolicy($securityPolicyRequest)
         ->build();
     
     /* 토큰 생성 */

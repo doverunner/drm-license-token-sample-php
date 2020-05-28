@@ -20,6 +20,7 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
     private $_hash;
     private $_siteKey;
     private $_accessKey;
+    private $_responseFormat = "original";
 
     public function __construct()
     {
@@ -65,6 +66,12 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
         return $this;
     }
 
+    public function responseFormat($responseFormat)
+    {
+        $this->_responseFormat = $responseFormat;
+        return $this;
+    }
+
     public function getDrmType(){
         return $this->_drmType;
 }
@@ -88,6 +95,11 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
         return $this->_accessKey;
     }
 
+    public function getResponseFormat()
+    {
+        return $this->_responseFormat;
+    }
+
 
     public function execute(){
         try{
@@ -100,6 +112,7 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
                 , "cid"=> $this->_cid
                 , "policy"=> $this->_encPolicy
                 , "timestamp"=> $this->_timestamp
+                , "response_format"=> $this->_responseFormat
                 , "hash"=> $this->_hash]));
             return $result;
         } catch (PallyConTokenException $e){
@@ -114,6 +127,7 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
             , "cid"=> $this->_cid?$this->_cid:null
             , "policy"=> $this->_encPolicy?$this->_encPolicy:null
             , "timestamp"=> $this->_timestamp
+            , "response_format"=> $this->_responseFormat
             , "hash"=> $this->_hash?$this->_hash:null]);
     }
 
