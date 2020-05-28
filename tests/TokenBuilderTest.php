@@ -15,13 +15,13 @@ class TokenBuilderTest extends TestCase{
 
         $policyRequest = $tokenBuilder->playbackPolicy($playbackPolicyRequest)->build();
 
-        $this->assertEquals("{\"playback_policy\":{\"persistent\":true,\"expire_date\":\"2020-01-15T00:00:00Z\"}}",  $policyRequest->toJsonString());
+        $this->assertEquals("{\"policy_version\":2,\"playback_policy\":{\"persistent\":true,\"expire_date\":\"2020-01-15T00:00:00Z\"}}",  $policyRequest->toJsonString());
 
         //duration Setting
         $playbackPolicyRequest = new PlaybackPolicyRequest(true, 160);
 
         $policyRequest = $tokenBuilder->playbackPolicy($playbackPolicyRequest)->build();
 
-        $this->assertEquals("{\"playback_policy\":{\"persistent\":true,\"license_duration\":160}}",  $policyRequest->toJsonString());
+        $this->assertEquals("{\"policy_version\":2,\"playback_policy\":{\"persistent\":true,\"license_duration\":160}}",  $policyRequest->toJsonString());
     }
 }

@@ -5,6 +5,7 @@ namespace PallyCon;
 
 class PolicyRequest
 {
+    public $_policyVersion;
     public $_playbackPolicy;
     public $_securityPolicyArr;
     public $_externalKey;
@@ -22,11 +23,13 @@ class PolicyRequest
         if(!empty($externalKeyRequest)) {
             $this->_externalKey = $externalKeyRequest;
         }
+        $this->_policyVersion = 2;
     }
 
     public function toArray(){
         $arr= [];
         $securityPolicyArr = [];
+        $arr["policy_version"] = $this->_policyVersion;
         if(isset($this->_playbackPolicy)){
             $arr["playback_policy"] = $this->_playbackPolicy->toArray();
         }
@@ -45,6 +48,22 @@ class PolicyRequest
 
     public function toJsonString(){
         return json_encode($this->toArray());
+    }
+
+    /**
+     * @return int
+     */
+    public function getPolicyVersion()
+    {
+        return $this->_policyVersion;
+    }
+
+    /**
+     * @param int $policyVersion
+     */
+    public function setPolicyVersion($policyVersion)
+    {
+        $this->_policyVersion = $policyVersion;
     }
 
     /**

@@ -56,6 +56,7 @@ class SampleTest extends TestCase
                 ->execute();
 
             $this->assertEquals(json_encode([
+                "policy_version" => 2,
                 "playback_policy" => [
                     "persistent" => true, "license_duration"=>1000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
 
@@ -116,6 +117,7 @@ class SampleTest extends TestCase
                 ->execute();
 
             $this->assertEquals(json_encode([
+                "policy_version" => 2,
                 "playback_policy" => [
                     "persistent" => true,
                     "expire_date" => "2020-01-15T00:00:00Z"
