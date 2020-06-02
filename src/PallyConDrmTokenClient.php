@@ -24,7 +24,7 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
 
     public function __construct()
     {
-        $this->_timestamp = gmdate("Y-m-d\Th:i:s\Z");
+        $this->_timestamp = gmdate("Y-m-d\TH:i:s\Z");
     }
 
     public function playready(){
