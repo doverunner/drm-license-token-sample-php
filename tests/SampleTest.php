@@ -69,6 +69,50 @@ class SampleTest extends TestCase
     }
 
     /**
+    * offline simple streaming license test
+    */
+    public function testOfflineSimpleRuleSample(){
+        $config = include "config/config.php";
+        try {
+            $pallyConTokenClient = new PallyConDrmTokenClient();
+
+            /** --------------------------------------------------------
+             * Sample Data
+             */
+            $playbackPolicyRequest = new PlaybackPolicyRequest(true, 0, "", 2000, 2000);
+
+            /**----------------------------------------------------------*/
+
+            /* create token rule build */
+            $policyRequest = (new TokenBuilder)
+                ->playbackPolicy($playbackPolicyRequest)
+                ->build();
+
+            /* create token */
+            $result = $pallyConTokenClient
+                ->playReady()
+                ->siteId($config["siteId"])
+                ->accessKey($config["accessKey"])
+                ->siteKey($config["siteKey"])
+                ->userId("testUser")
+                ->cid("testCID")
+                ->policy($policyRequest)
+                ->execute();
+
+            $this->assertEquals(json_encode([
+                "policy_version" => 2,
+                "playback_policy" => [
+                    "persistent" => true, "rental_duration"=>2000, "playback_duration"=>2000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
+
+            echo "testSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
+        }catch (PallyConTokenException $e){
+            $result = $e->toString();
+        }
+        echo $result;
+
+    }
+
+    /**
      *
      */
     public function testFullRuleSample(){

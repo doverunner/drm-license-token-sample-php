@@ -10,9 +10,20 @@ class PlaybackPolicyRequest {
     public $_persistent;
     public $_licenseDuration;
     public $_expireDate;
+    public $_rentalDuration;
+    public $_playbackDuration;
     public $_allowedTrackTypes;
 
-    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "")
+    /**
+     * PlaybackPolicyRequest constructor.
+     * @param bool $persistent
+     * @param int $licenseDuration
+     * @param string $expireDate
+     * @param string $rentalDuration
+     * @param string $playbackDuration
+     * @throws PallyConTokenException
+     */
+    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "", $rentalDuration="", $playbackDuration="")
     {
         if(!is_null($persistent)) {
             if(is_bool($persistent)){
@@ -35,6 +46,20 @@ class PlaybackPolicyRequest {
                 throw new PallyConTokenException(1011);
             }
         }
+        if(!empty($rentalDuration)) {
+            if(is_numeric($rentalDuration)){
+                $this->_rentalDuration = $rentalDuration;
+            }else{
+                throw new PallyConTokenException(1049);
+            }
+        }
+        if(!empty($playbackDuration)) {
+            if(is_numeric($playbackDuration)){
+                $this->_playbackDuration = $playbackDuration;
+            }else{
+                throw new PallyConTokenException(1050);
+            }
+        }
     }
 
     public function toArray(){
@@ -47,6 +72,12 @@ class PlaybackPolicyRequest {
         }
         if(isset($this->_expireDate)){
             $arr["expire_date"] = $this->_expireDate;
+        }
+        if(isset($this->_rentalDuration)){
+            $arr["rental_duration"] = $this->_rentalDuration;
+        }
+        if(isset($this->_playbackDuration)){
+            $arr["playback_duration"] = $this->_playbackDuration;
         }
         if(isset($this->_allowedTrackTypes)){
             $arr["allowed_track_types"] = $this->_allowedTrackTypes;
@@ -103,6 +134,40 @@ class PlaybackPolicyRequest {
     }
 
     /**
+     * @return int|string
+     */
+    public function getRentalDuration()
+    {
+        return $this->_rentalDuration;
+    }
+
+    /**
+     * @param int|string $rentalDuration
+     */
+    public function setRentalDuration($rentalDuration)
+    {
+        $this->_rentalDuration = $rentalDuration;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getPlaybackDuration()
+    {
+        return $this->_playbackDuration;
+    }
+
+    /**
+     * @param int|string $playbackDuration
+     */
+    public function setPlaybackDuration($playbackDuration)
+    {
+        $this->_playbackDuration = $playbackDuration;
+    }
+
+
+
+    /**
      * @return mixed
      */
     public function getAllowedTrackTypes()
@@ -117,8 +182,6 @@ class PlaybackPolicyRequest {
     {
         $this->_allowedTrackTypes = $allowedTrackTypes;
     }
-
-
 
 }
 ?>

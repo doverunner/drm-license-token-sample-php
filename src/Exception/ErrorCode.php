@@ -28,5 +28,7 @@ return [
     1042=>"ExternalKeyMpegCenc : The Iv should be 16byte hex String",
     1044=>"ExternalKeyHlsAes : The Key should be 16byte hex String",
     1045=>"ExternalKeyHlsAes : The Iv should be 16byte hex String",
-    1047=>"ExternalKeyNcg : The Cek should be 32byte hex String"
+    1047=>"ExternalKeyNcg : The Cek should be 32byte hex String",
+    1049=>"PlaybackPolicy : The rental_duration should be Integer",
+    1050=>"PlaybackPolicy : The playback_duration should be Integer"
 ];
