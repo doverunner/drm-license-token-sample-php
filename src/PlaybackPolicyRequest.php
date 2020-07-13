@@ -19,11 +19,11 @@ class PlaybackPolicyRequest {
      * @param bool $persistent
      * @param int $licenseDuration
      * @param string $expireDate
-     * @param string $rentalDuration
-     * @param string $playbackDuration
+     * @param $rentalDuration
+     * @param $playbackDuration
      * @throws PallyConTokenException
      */
-    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "", $rentalDuration="", $playbackDuration="")
+    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "", $rentalDuration, $playbackDuration)
     {
         if(!is_null($persistent)) {
             if(is_bool($persistent)){
@@ -40,7 +40,7 @@ class PlaybackPolicyRequest {
             }
         }
         if(!empty($expireDate)) {
-            if(preg_match('/[0-9]{4}-[0,1][0-9]-[0-5][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]Z/', $expireDate)){
+            if(preg_match('/[0-9]{4}-[0,1][0-9]-[0-5][0-9]T[0-2][0-3]:[0-5][0-9]:[0-5][0-9]Z/', $expireDate)){
                 $this->_expireDate = $expireDate;
             }else{
                 throw new PallyConTokenException(1011);
@@ -134,40 +134,6 @@ class PlaybackPolicyRequest {
     }
 
     /**
-     * @return int|string
-     */
-    public function getRentalDuration()
-    {
-        return $this->_rentalDuration;
-    }
-
-    /**
-     * @param int|string $rentalDuration
-     */
-    public function setRentalDuration($rentalDuration)
-    {
-        $this->_rentalDuration = $rentalDuration;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getPlaybackDuration()
-    {
-        return $this->_playbackDuration;
-    }
-
-    /**
-     * @param int|string $playbackDuration
-     */
-    public function setPlaybackDuration($playbackDuration)
-    {
-        $this->_playbackDuration = $playbackDuration;
-    }
-
-
-
-    /**
      * @return mixed
      */
     public function getAllowedTrackTypes()
@@ -182,6 +148,8 @@ class PlaybackPolicyRequest {
     {
         $this->_allowedTrackTypes = $allowedTrackTypes;
     }
+
+
 
 }
 ?>

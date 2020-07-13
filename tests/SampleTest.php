@@ -69,8 +69,8 @@ class SampleTest extends TestCase
     }
 
     /**
-    * offline simple streaming license test
-    */
+     * simple offline streaming license test
+     */
     public function testOfflineSimpleRuleSample(){
         $config = include "config/config.php";
         try {
