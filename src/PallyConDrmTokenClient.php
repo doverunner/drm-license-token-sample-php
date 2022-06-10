@@ -21,6 +21,7 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
     private $_siteKey;
     private $_accessKey;
     private $_responseFormat = "original";
+    private $_keyRotation = false;
 
     public function __construct()
     {
@@ -72,6 +73,11 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
         return $this;
     }
 
+    public function keyRotation($keyRotation){
+        $this->_keyRotation = $keyRotation;
+        return $this;
+    }
+
     public function getDrmType(){
         return $this->_drmType;
 }
@@ -100,6 +106,11 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
         return $this->_responseFormat;
     }
 
+    public function getKeyRotation()
+    {
+        return $this->_keyRotation;
+    }
+
 
     public function execute(){
         try{
@@ -113,7 +124,9 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
                 , "policy"=> $this->_encPolicy
                 , "timestamp"=> $this->_timestamp
                 , "response_format"=> $this->_responseFormat
-                , "hash"=> $this->_hash]));
+                , "hash"=> $this->_hash
+                , "key_rotation"=> $this->_keyRotation
+            ]));
             return $result;
         } catch (PallyConTokenException $e){
             throw $e;
@@ -128,7 +141,9 @@ class PallyConDrmTokenClient implements PallyConDrmToken {
             , "policy"=> $this->_encPolicy?$this->_encPolicy:null
             , "timestamp"=> $this->_timestamp
             , "response_format"=> $this->_responseFormat
-            , "hash"=> $this->_hash?$this->_hash:null]);
+            , "hash"=> $this->_hash?$this->_hash:null
+            , "key_rotation"=> $this->_keyRotation
+        ]);
     }
 
     private function createPolicy(){
