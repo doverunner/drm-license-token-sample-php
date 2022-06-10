@@ -23,7 +23,7 @@ class PlaybackPolicyRequest {
      * @param $playbackDuration
      * @throws PallyConTokenException
      */
-    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "", $rentalDuration, $playbackDuration)
+    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "", $rentalDuration=0, $playbackDuration=0)
     {
         if(!is_null($persistent)) {
             if(is_bool($persistent)){

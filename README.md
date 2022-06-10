@@ -1,11 +1,11 @@
 # PallyCon PHP Token Sample 
 
 ## 환경
-- PHP Version 5.6 이상
-- autoloader 를 사용하기 위해서는 Composer를 통해 설치. 
+- PHP Version 5.6 or later.
+- Install Composer to use autoloader. 
 
 ## Quick Example
-tests/SampleTest.php 참조.
+tests/SampleTest.php
 ```php
 <?php
 // Require the Composer autoloader.
@@ -19,10 +19,10 @@ use PallyCon\PlaybackPolicyRequest;
 $config = include "config/config.php";
 
 try{
-    // tokenClient 생성
+    // TokenClient constructor
     $pallyConTokenClient = new PallyConDrmTokenClient();
     
-    /* playback policy 룰 생성 */
+    /* Create playback policy rule */
     // https://pallycon.com/docs/en/multidrm/license/license-token/#playback-policy
     
     //persistent : true / duration : 600
@@ -33,15 +33,15 @@ try{
     
     //ExternalKey: ExternalkeyRequest.php
     
-    /* 생성한 룰들을 합쳐서 빌드 */
+    /* Build rule */
     //https://pallycon.com/docs/en/multidrm/license/license-token/#token-rule-json
     $policyRequest = (new TokenBuilder)
         ->playbackPolicy($playbackPolicyRequest)
     //->securityPolicy($securityPolicyRequest)
         ->build();
     
-    /* 토큰 생성 */
-    // siteId, accessKey, siteKey, userId, cid, policy 는 필수 값으로 반드시 set 되어야 한다.
+    /* Create token */
+    // siteId, accessKey, siteKey, userId, cid, policy is required.
     // https://pallycon.com/docs/en/multidrm/license/license-token/#token-json-example
     $result = $pallyConTokenClient
         ->playReady()
