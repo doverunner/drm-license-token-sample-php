@@ -64,7 +64,7 @@ class SampleTest extends TestCase
         }catch (PallyConTokenException $e){
             $result = $e->toString();
         }
-        echo $result;
+        echo $result . "\n";;
 
     }
 
@@ -104,11 +104,11 @@ class SampleTest extends TestCase
                 "playback_policy" => [
                     "persistent" => true, "rental_duration"=>2000, "playback_duration"=>2000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
 
-            echo "testSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
+            echo "testOfflineSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
         }catch (PallyConTokenException $e){
             $result = $e->toString();
         }
-        echo $result;
+        echo $result . "\n";
 
     }
 
@@ -170,7 +170,8 @@ class SampleTest extends TestCase
                     "track_type" => "ALL",
                     "widevine" => [
                         "security_level" => 1,
-                        "required_hdcp_version" => "HDCP_V1"
+                        "required_hdcp_version" => "HDCP_V1",
+                        "override_device_revocation" => true
                     ],
                     "playready" =>[
                         "security_level"=>3000,
@@ -207,6 +208,7 @@ class SampleTest extends TestCase
             ]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
 
             $this->assertEquals("custom", $pallyConTokenClient->getResponseFormat());
+            echo "testFullRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
         }catch (PallyConTokenException $e){
             $result = $e->toString();
         }

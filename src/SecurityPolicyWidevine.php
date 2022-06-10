@@ -12,9 +12,10 @@ class SecurityPolicyWidevine
     public $_requiredCgmsFlags;
     public $_disableAnalogOutput;
     public $_hdcpSrmRule;
+    public $_overrideDeviceRevocation;
 
     public function __construct($securityLevel=1, $requiredHdcpVersion=null
-        , $requiredCgmsFlags=null, $disableAnalogOutput=null, $hdcpSrmRule=null)
+        , $requiredCgmsFlags=null, $disableAnalogOutput=null, $hdcpSrmRule=null, $overrideDeviceRevocation=true)
     {
         if(is_numeric($securityLevel)){
             $this->_securityLevel = $securityLevel;
@@ -32,6 +33,9 @@ class SecurityPolicyWidevine
         }
         if(!empty($hdcpSrmRule)){
             $this->_hdcpSrmRule = $hdcpSrmRule;
+        }
+        if(!empty($overrideDeviceRevocation)){
+            $this->_overrideDeviceRevocation = $overrideDeviceRevocation;
         }
     }
 
@@ -52,6 +56,9 @@ class SecurityPolicyWidevine
         }
         if (isset($this->_hdcpSrmRule)) {
             $arr["hdcp_srm_rule"] = $this->_hdcpSrmRule;
+        }
+        if (isset($this->_overrideDeviceRevocation)) {
+            $arr["override_device_revocation"] = $this->_overrideDeviceRevocation;
         }
 
         return $arr;
@@ -135,6 +142,22 @@ class SecurityPolicyWidevine
     public function setHdcpSrmRule($hdcpSrmRule)
     {
         $this->_hdcpSrmRule = $hdcpSrmRule;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOverrideDeviceRevocation()
+    {
+        return $this->_overrideDeviceRevocation;
+    }
+
+    /**
+     * @param mixed $overrideDeviceRevocation
+     */
+    public function setOverrideDeviceRevocation($overrideDeviceRevocation)
+    {
+        $this->_overrideDeviceRevocation = $overrideDeviceRevocation;
     }
 
   }
