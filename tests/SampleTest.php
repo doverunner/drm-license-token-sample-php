@@ -171,7 +171,7 @@ class SampleTest extends TestCase
                     "widevine" => [
                         "security_level" => 1,
                         "required_hdcp_version" => "HDCP_V1",
-                        "override_device_revocation" => true
+                        "override_device_revocation" => false
                     ],
                     "playready" =>[
                         "security_level"=>3000,
