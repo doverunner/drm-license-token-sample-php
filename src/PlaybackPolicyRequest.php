@@ -13,6 +13,7 @@ class PlaybackPolicyRequest {
     public $_rentalDuration;
     public $_playbackDuration;
     public $_allowedTrackTypes;
+    public $_maxStreamPerUser;
 
     /**
      * PlaybackPolicyRequest constructor.
@@ -23,7 +24,7 @@ class PlaybackPolicyRequest {
      * @param $playbackDuration
      * @throws PallyConTokenException
      */
-    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "", $rentalDuration=0, $playbackDuration=0)
+    public function __construct($persistent=false, $licenseDuration=0, $expireDate= "", $rentalDuration=0, $playbackDuration=0, $maxStreamPerUser=0)
     {
         if(!is_null($persistent)) {
             if(is_bool($persistent)){
@@ -60,6 +61,13 @@ class PlaybackPolicyRequest {
                 throw new PallyConTokenException(1050);
             }
         }
+        if(!empty($maxStreamPerUser)) {
+            if(is_numeric($maxStreamPerUser)){
+                $this->_maxStreamPerUser = $maxStreamPerUser;
+            }else{
+                throw new PallyConTokenException(1051);
+            }
+        }
     }
 
     public function toArray(){
@@ -81,6 +89,9 @@ class PlaybackPolicyRequest {
         }
         if(isset($this->_allowedTrackTypes)){
             $arr["allowed_track_types"] = $this->_allowedTrackTypes;
+        }
+        if(isset($this->_maxStreamPerUser)){
+            $arr["max_stream_per_user"] = $this->_maxStreamPerUser;
         }
         return $arr;
     }
