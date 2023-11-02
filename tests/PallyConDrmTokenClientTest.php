@@ -94,11 +94,11 @@ class PallyConDrmTokenClientTest extends TestCase
 
         $securityPolicyReqeust = new SecurityPolicyRequest("ALL", $securityPolicyWidevine);
 
-        $hlsAesRequest = new HlsAesRequest("ALL", "12345678123456781234567812345678", "12345678123456781234567812345678");
+        $hlsAesRequest = new HlsAesRequest("ALL", "12345678123456781234567812345678", "12345678123456781234567812345678", "12345678123456781234567812345678");
         $mpegCencRequest = new MpegCencRequest("ALL", "11345678123456781234567812345678", "11345678123456781234567812345678");
         $ncgRequest = new NcgRequest("1234567812345678123456781234567812345678123456781234567812345678");
 
-        $externalKeyRequest = new ExternalKeyRequest(array($hlsAesRequest), array($mpegCencRequest), $ncgRequest);
+        $externalKeyRequest = new ExternalKeyRequest(array($mpegCencRequest), array($hlsAesRequest), $ncgRequest);
 
 
         /* create token rule */
@@ -112,5 +112,36 @@ class PallyConDrmTokenClientTest extends TestCase
             ->siteId($this->_config["siteId"]);
 
         echo("testFullRule : ".$policyRequest->toJsonString());
+
+        $this->assertEquals(json_encode([
+            "policy_version" => 2,
+            "playback_policy" => [
+                "persistent" => true,
+                "expire_date" => "2020-01-15T00:00:00Z"
+            ],
+            "security_policy" => [[
+                "track_type" => "ALL",
+                "widevine" => [
+                    "security_level" => 5
+                ]
+            ]],
+            "external_key" => [
+                "mpeg_cenc" => [[
+                    "track_type" => "ALL",
+                    "key_id" => "11345678123456781234567812345678",
+                    "key" => "11345678123456781234567812345678"
+                ]],
+                "hls_aes" => [[
+                    "track_type" => "ALL",
+                    "key" => "12345678123456781234567812345678",
+                    "iv" => "12345678123456781234567812345678",
+                    "key_id" => "12345678123456781234567812345678",
+                ]],
+                "ncg" => [
+                    "cek" => "1234567812345678123456781234567812345678123456781234567812345678"
+                ],
+            ]
+
+        ]), json_encode($policyRequest->toArray()));
     }
 }

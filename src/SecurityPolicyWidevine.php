@@ -13,9 +13,10 @@ class SecurityPolicyWidevine
     public $_disableAnalogOutput;
     public $_hdcpSrmRule;
     public $_overrideDeviceRevocation;
+    public $_enableLicenseCipher;
 
     public function __construct($securityLevel=1, $requiredHdcpVersion=null
-        , $requiredCgmsFlags=null, $disableAnalogOutput=null, $hdcpSrmRule=null, $overrideDeviceRevocation=false)
+        , $requiredCgmsFlags=null, $disableAnalogOutput=null, $hdcpSrmRule=null, $overrideDeviceRevocation=false, $enableLicenseCipher=false)
     {
         if(is_numeric($securityLevel)){
             $this->_securityLevel = $securityLevel;
@@ -36,6 +37,9 @@ class SecurityPolicyWidevine
         }
         if(!empty($overrideDeviceRevocation)){
             $this->_overrideDeviceRevocation = $overrideDeviceRevocation;
+        }
+        if(!empty($enableLicenseCipher)){
+            $this->_enableLicenseCipher = $enableLicenseCipher;
         }
     }
 
@@ -59,6 +63,9 @@ class SecurityPolicyWidevine
         }
         if (isset($this->_overrideDeviceRevocation)) {
             $arr["override_device_revocation"] = $this->_overrideDeviceRevocation;
+        }
+        if (isset($this->_enableLicenseCipher)) {
+            $arr["enable_license_cipher"] = $this->_enableLicenseCipher;
         }
 
         return $arr;
