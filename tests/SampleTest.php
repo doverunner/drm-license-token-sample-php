@@ -134,7 +134,7 @@ class SampleTest extends TestCase
             $securityPolicyAll = new SecurityPolicyRequest("ALL", $securityPolicyWidevine
                                         , $securityPolicyPlayReady, $securityPolicyFairplay, $securityPolicyNcg);
 
-            $hlsAesRequest = new HlsAesRequest("ALL", "123456781234FF781234567812345678", "123456781234FF781234567812345678");
+            $hlsAesRequest = new HlsAesRequest("ALL", "123456781234FF781234567812345678", "123456781234FF781234567812345678", "123456781234FF781234567812345678");
             $mpegCencRequest = new MpegCencRequest("ALL", "113456781234FF781234567812345678", "113456781234FF781234567812345678");
             $ncgRequest = new NcgRequest("123456781234FF78123456781234567812345678123456781234567812345678");
             $externalKeyRequest = new ExternalKeyRequest(array($mpegCencRequest), array($hlsAesRequest), $ncgRequest);
@@ -170,8 +170,7 @@ class SampleTest extends TestCase
                     "track_type" => "ALL",
                     "widevine" => [
                         "security_level" => 1,
-                        "required_hdcp_version" => "HDCP_V1",
-                        "override_device_revocation" => false
+                        "required_hdcp_version" => "HDCP_V1"
                     ],
                     "playready" =>[
                         "security_level"=>3000,
@@ -198,7 +197,8 @@ class SampleTest extends TestCase
                     "hls_aes" => [[
                         "track_type" => "ALL",
                         "key" => "123456781234FF781234567812345678",
-                        "iv" => "123456781234FF781234567812345678"
+                        "iv" => "123456781234FF781234567812345678",
+                        "key_id" => "123456781234FF781234567812345678"
                     ]],
                     "ncg" => [
                         "cek" => "123456781234FF78123456781234567812345678123456781234567812345678"
