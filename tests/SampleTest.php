@@ -1,20 +1,21 @@
 <?php
 namespace Test;
 
-use PallyCon\Exception\PallyConTokenException;
-use PallyCon\ExternalKeyRequest;
-use PallyCon\HlsAesRequest;
-use PallyCon\MpegCencRequest;
-use PallyCon\NcgRequest;
-use PallyCon\OutputProtectRequest;
-use PallyCon\PallyConDrmTokenClient;
-use PallyCon\PlaybackPolicyRequest;
-use PallyCon\SecurityPolicyFairplay;
-use PallyCon\SecurityPolicyNcg;
-use PallyCon\SecurityPolicyPlayReady;
-use PallyCon\SecurityPolicyRequest;
-use PallyCon\SecurityPolicyWidevine;
-use PallyCon\TokenBuilder;
+use Doverunner\Exception\DoverunnerTokenException;
+use Doverunner\ExternalKeyRequest;
+use Doverunner\HlsAesRequest;
+use Doverunner\MpegCencRequest;
+use Doverunner\NcgRequest;
+use Doverunner\OutputProtectRequest;
+use Doverunner\DoverunnerDrmTokenClient;
+use Doverunner\PlaybackPolicyRequest;
+use Doverunner\SecurityPolicyFairplay;
+use Doverunner\SecurityPolicyNcg;
+use Doverunner\SecurityPolicyPlayReady;
+use Doverunner\SecurityPolicyRequest;
+use Doverunner\SecurityPolicyWidevine;
+use Doverunner\SecurityPolicyWiseplay;
+use Doverunner\TokenBuilder;
 use PHPUnit\Framework\TestCase;
 
 class SampleTest extends TestCase
@@ -30,7 +31,7 @@ class SampleTest extends TestCase
     public function testSimpleRuleSample(){
         $config = include "config/config.php";
         try {
-            $pallyConTokenClient = new PallyConDrmTokenClient();
+            $pallyConTokenClient = new DoverunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -58,10 +59,11 @@ class SampleTest extends TestCase
             $this->assertEquals(json_encode([
                 "policy_version" => 2,
                 "playback_policy" => [
-                    "persistent" => true, "license_duration"=>1000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
+                    "persistent" => true, "allowed_track_types"=>"ALL", "license_duration"=>1000, "rental_duration"=>0,
+                    "playback_duration"=>0]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
 
             echo "testSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
-        }catch (PallyConTokenException $e){
+        }catch (DoverunnerTokenException $e){
             $result = $e->toString();
         }
         echo $result . "\n";;
@@ -74,7 +76,7 @@ class SampleTest extends TestCase
     public function testOfflineSimpleRuleSample(){
         $config = include "config/config.php";
         try {
-            $pallyConTokenClient = new PallyConDrmTokenClient();
+            $pallyConTokenClient = new DoverunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -102,10 +104,10 @@ class SampleTest extends TestCase
             $this->assertEquals(json_encode([
                 "policy_version" => 2,
                 "playback_policy" => [
-                    "persistent" => true, "rental_duration"=>2000, "playback_duration"=>2000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
+                    "persistent" => true, "allowed_track_types"=>"ALL", "license_duration"=>0, "rental_duration"=>2000, "playback_duration"=>2000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
 
             echo "testOfflineSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
-        }catch (PallyConTokenException $e){
+        }catch (DoverunnerTokenException $e){
             $result = $e->toString();
         }
         echo $result . "\n";
@@ -115,11 +117,12 @@ class SampleTest extends TestCase
     /**
      *
      */
+
     public function testFullRuleSample(){
         $config = include "config/config.php";
 
         try {
-            $pallyConTokenClient = new PallyConDrmTokenClient();
+            $pallyConTokenClient = new DoverunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -130,9 +133,11 @@ class SampleTest extends TestCase
             $securityPolicyPlayReady = new SecurityPolicyPlayReady(3000, 200, 200);
             $securityPolicyFairplay = new SecurityPolicyFairplay(1,true,false);
             $securityPolicyNcg = new SecurityPolicyNcg(false, false, 1);
+            $securityPolicyWiseplay = new SecurityPolicyWiseplay(0, 1);
 
             $securityPolicyAll = new SecurityPolicyRequest("ALL", $securityPolicyWidevine
-                                        , $securityPolicyPlayReady, $securityPolicyFairplay, $securityPolicyNcg);
+                                        , $securityPolicyPlayReady, $securityPolicyFairplay, $securityPolicyNcg
+                                        , $securityPolicyWiseplay);
 
             $hlsAesRequest = new HlsAesRequest("ALL", "123456781234FF781234567812345678", "123456781234FF781234567812345678", "123456781234FF781234567812345678");
             $mpegCencRequest = new MpegCencRequest("ALL", "113456781234FF781234567812345678", "113456781234FF781234567812345678");
@@ -164,18 +169,24 @@ class SampleTest extends TestCase
                 "policy_version" => 2,
                 "playback_policy" => [
                     "persistent" => true,
-                    "expire_date" => "2020-01-15T00:00:00Z"
+                    "allowed_track_types" => "ALL",
+                    "license_duration" => 0,
+                    "expire_date" => "2020-01-15T00:00:00Z",
+                    "rental_duration" => 0,
+                    "playback_duration" => 0
                 ],
                 "security_policy" => [[
                     "track_type" => "ALL",
                     "widevine" => [
                         "security_level" => 1,
-                        "required_hdcp_version" => "HDCP_V1"
+                        "required_hdcp_version" => "HDCP_V1",
+                        "allow_test_device" => true
                     ],
                     "playready" =>[
                         "security_level"=>3000,
                         "digital_video_protection_level" => 200,
-                        "analog_video_protection_level" => 200
+                        "analog_video_protection_level" => 200,
+                        "enable_license_cipher" => false,
                     ],
                     "fairplay" =>[
                         "hdcp_enforcement"=>1,
@@ -186,6 +197,10 @@ class SampleTest extends TestCase
                         "allow_mobile_abnormal_device"=>false,
                         "allow_external_display"=>false,
                         "control_hdcp"=>1
+                    ],
+                    "wiseplay" => [
+                        "security_level" => 0,
+                        "output_control" => 1,
                     ]
                 ]],
                 "external_key" => [
@@ -209,7 +224,7 @@ class SampleTest extends TestCase
 
             $this->assertEquals("custom", $pallyConTokenClient->getResponseFormat());
             echo "testFullRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
-        }catch (PallyConTokenException $e){
+        }catch (DoverunnerTokenException $e){
             $result = $e->toString();
         }
 
