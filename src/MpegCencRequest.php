@@ -1,7 +1,7 @@
 <?php
-namespace PallyCon;
+namespace Doverunner;
 
-use PallyCon\Exception\PallyConTokenException;
+use Doverunner\Exception\DoverunnerTokenException;
 
 class MpegCencRequest
 {
@@ -14,10 +14,10 @@ class MpegCencRequest
     {
         $this->_trackType = $trackType;
         if(!$this->checkHex32($keyId)){
-            throw new PallyConTokenException(1040);
+            throw new DoverunnerTokenException(1040);
         }
         if(!$this->checkHex32($key)){
-            throw new PallyConTokenException(1041);
+            throw new DoverunnerTokenException(1041);
         }
 
         $this->_keyId = $keyId;
@@ -27,7 +27,7 @@ class MpegCencRequest
             if($this->checkHex32($keyId)){
                 $this->_iv = $iv;
             }else{
-                throw new PallyConTokenException(1042);
+                throw new DoverunnerTokenException(1042);
             }
         }
     }

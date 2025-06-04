@@ -1,13 +1,14 @@
 {
-    "name": "pallycon/token-sample-php",
-    "description": "PallyCon token sample by php",
+    "name": "doverunner/token-sample-php",
+    "version": "3.0.0",
+    "description": "Doverunner token sample by php",
     "type": "library",
     "require-dev": {
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4":{
-          "PallyCon\\": "src"
+          "Doverunner\\": "src"
         }
     },
     "autoload-dev": {
@@ -17,8 +18,8 @@
     },
     "authors": [
         {
-            "name": "PallyCon",
-            "email": "server@inka.co.kr"
+            "name": "Doverunner",
+            "email": "contentsecurity_server@doverunner.com"
         }
     ],
     "require": {}

@@ -1,7 +1,7 @@
-# PallyCon PHP Token Sample 
+# Doverunner PHP Token Sample (v3.0)
 
 ## 환경
-- PHP Version 5.6 or later.
+- PHP Version 8.4.7 or later.
 - Install Composer to use autoloader. 
 
 ## Quick Example
@@ -11,19 +11,19 @@ tests/SampleTest.php
 // Require the Composer autoloader.
 require 'vendor/autoload.php';
 
-use PallyCon\Exception\PallyConTokenException;
-use PallyCon\PallyConDrmTokenClient;
-use PallyCon\TokenBuilder;
-use PallyCon\PlaybackPolicyRequest;
+use Doverunner\Exception\DoverunnerTokenException;
+use Doverunner\DoverunnerDrmTokenClient;
+use Doverunner\TokenBuilder;
+use Doverunner\PlaybackPolicyRequest;
 
 $config = include "config/config.php";
 
 try{
     // TokenClient constructor
-    $pallyConTokenClient = new PallyConDrmTokenClient();
+    $DoverunnerTokenClient = new DoverunnerDrmTokenClient();
     
     /* Create playback policy rule */
-    // https://pallycon.com/docs/en/multidrm/license/license-token/#playback-policy
+    // https://doverunner.com/docs/en/multidrm/license/license-token/#playback-policy
     
     //persistent : true / duration : 600
     $playbackPolicyRequest = new PlaybackPolicyRequest(true, 600);
@@ -34,7 +34,7 @@ try{
     //ExternalKey: ExternalkeyRequest.php
     
     /* Build rule */
-    //https://pallycon.com/docs/en/multidrm/license/license-token/#token-rule-json
+    //https://doverunner.com/docs/en/multidrm/license/license-token/#token-rule-json
     $policyRequest = (new TokenBuilder)
         ->playbackPolicy($playbackPolicyRequest)
     //->securityPolicy($securityPolicyRequest)
@@ -42,8 +42,8 @@ try{
     
     /* Create token */
     // siteId, accessKey, siteKey, userId, cid, policy is required.
-    // https://pallycon.com/docs/en/multidrm/license/license-token/#token-json-example
-    $result = $pallyConTokenClient
+    // https://doverunner.com/docs/en/multidrm/license/license-token/#token-json-example
+    $result = $DoverunnerTokenClient
         ->playReady()
         ->siteId($config["siteId"])
         ->accessKey($config["accessKey"])
@@ -53,7 +53,7 @@ try{
         ->policy($policyRequest)
         ->execute();    
     
-}catch (PallyConTokenException $e){
+}catch (DoverunnerTokenException $e){
     $result = $e->toString();
 }
     echo $result;

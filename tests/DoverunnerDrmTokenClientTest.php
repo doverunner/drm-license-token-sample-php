@@ -6,23 +6,21 @@ error_reporting(E_ALL);
 ini_set('display_errors', "1");
 
 
-use PallyCon\SecurityPolicyWidevine;
+use Doverunner\SecurityPolicyWidevine;
 use PHPUnit\Framework\TestCase;
 
-use PallyCon\Exception\PallyConTokenException;
-use PallyCon\PallyConDrmTokenClient;
-use PallyCon\PolicyRequest;
-use PallyCon\PlaybackPolicyRequest;
-use PallyCon\SecurityPolicyRequest;
-use PallyCon\OutputProtectRequest;
-use PallyCon\ExternalKeyRequest;
-use PallyCon\HlsAesRequest;
-use PallyCon\MpegCencRequest;
-use PallyCon\NcgRequest;
-use PallyCon\TokenBuilder;
+use Doverunner\Exception\DoverunnerTokenException;
+use Doverunner\DoverunnerDrmTokenClient;
+use Doverunner\PlaybackPolicyRequest;
+use Doverunner\SecurityPolicyRequest;
+use Doverunner\ExternalKeyRequest;
+use Doverunner\HlsAesRequest;
+use Doverunner\MpegCencRequest;
+use Doverunner\NcgRequest;
+use Doverunner\TokenBuilder;
 
 
-class PallyConDrmTokenClientTest extends TestCase
+class DoverunnerDrmTokenClientTest extends TestCase
 {
     private $_config;
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -32,61 +30,65 @@ class PallyConDrmTokenClientTest extends TestCase
     }
 
     public function testDrmType(){
-        $pallyconTokenDrmClient = new PallyConDrmTokenClient();
+        $DoverunnerTokenDrmClient = new DoverunnerDrmTokenClient();
 
-        $pallyconTokenDrmClient->playready();
-        $this->assertEquals("PlayReady", $pallyconTokenDrmClient->getDrmType());
-        $pallyconTokenDrmClient->widevine();
-        $this->assertEquals("Widevine", $pallyconTokenDrmClient->getDrmType());
-        $pallyconTokenDrmClient->fairplay();
-        $this->assertEquals("FairPlay", $pallyconTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->playready();
+        $this->assertEquals("PlayReady", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->widevine();
+        $this->assertEquals("Widevine", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->fairplay();
+        $this->assertEquals("FairPlay", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->ncg();
+        $this->assertEquals("NCG", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->wiseplay();
+        $this->assertEquals("Wiseplay", $DoverunnerTokenDrmClient->getDrmType());
     }
 
     public function testRequireValue(){
-        $pallyconTokenDrmClient = new PallyConDrmTokenClient();
+        $DoverunnerTokenDrmClient = new DoverunnerDrmTokenClient();
         try{
-            $pallyconTokenDrmClient->execute();
-        }catch (PallyConTokenException $e){
+            $DoverunnerTokenDrmClient->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode() . "\n";
             $this->assertEquals(1000, $e->getCode());
         }
 
         try{
-            $pallyconTokenDrmClient->userId("testUser")->execute();
-        }catch (PallyConTokenException $e){
+            $DoverunnerTokenDrmClient->userId("testUser")->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1001, $e->getCode());
         }
 
         try{
-            $pallyconTokenDrmClient->cid("test-cid")->execute();
-        }catch (PallyConTokenException $e){
+            $DoverunnerTokenDrmClient->cid("test-cid")->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1002, $e->getCode());
         }
 
         try{
-            $pallyconTokenDrmClient->siteId($this->_config["siteId"])->execute();
-        }catch (PallyConTokenException $e){
+            $DoverunnerTokenDrmClient->siteId($this->_config["siteId"])->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
         try{
-            $pallyconTokenDrmClient->siteId($this->_config["accessKey"])->execute();
-        }catch (PallyConTokenException $e){
+            $DoverunnerTokenDrmClient->siteId($this->_config["accessKey"])->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
         try{
-            $pallyconTokenDrmClient->siteId($this->_config["siteKey"])->execute();
-        }catch (PallyConTokenException $e){
+            $DoverunnerTokenDrmClient->siteId($this->_config["siteKey"])->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
     }
     public function testFullRule()
     {
-        $pallyconTokenDrmClient = new PallyConDrmTokenClient();
+        $DoverunnerTokenDrmClient = new DoverunnerDrmTokenClient();
 
         $playbackPolicyRequest = new PlaybackPolicyRequest(true, 0, "2020-01-15T00:00:00Z");
 
@@ -108,7 +110,7 @@ class PallyConDrmTokenClientTest extends TestCase
             ->externalKey($externalKeyRequest)
             ->build();
 
-        $pallyconTokenDrmClient->playready()
+        $DoverunnerTokenDrmClient->playready()
             ->siteId($this->_config["siteId"]);
 
         echo("testFullRule : ".$policyRequest->toJsonString());
@@ -117,12 +119,17 @@ class PallyConDrmTokenClientTest extends TestCase
             "policy_version" => 2,
             "playback_policy" => [
                 "persistent" => true,
-                "expire_date" => "2020-01-15T00:00:00Z"
+                "allowed_track_types" => "ALL",
+                "license_duration" => 0,
+                "expire_date" => "2020-01-15T00:00:00Z",
+                "rental_duration" => 0,
+                "playback_duration" => 0
             ],
             "security_policy" => [[
                 "track_type" => "ALL",
                 "widevine" => [
-                    "security_level" => 5
+                    "security_level" => 5,
+                    "allow_test_device" => true
                 ]
             ]],
             "external_key" => [
