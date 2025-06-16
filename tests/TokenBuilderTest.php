@@ -1,9 +1,9 @@
 <?php
 namespace Test;
 
-use PallyCon\Exception\PallyConTokenException;
-use PallyCon\PlaybackPolicyRequest;
-use PallyCon\TokenBuilder;
+use Doverunner\Exception\DoverunnerTokenException;
+use Doverunner\PlaybackPolicyRequest;
+use Doverunner\TokenBuilder;
 use PHPUnit\Framework\TestCase;
 
 class TokenBuilderTest extends TestCase{
@@ -15,13 +15,13 @@ class TokenBuilderTest extends TestCase{
 
         $policyRequest = $tokenBuilder->playbackPolicy($playbackPolicyRequest)->build();
 
-        $this->assertEquals("{\"policy_version\":2,\"playback_policy\":{\"persistent\":true,\"expire_date\":\"2020-01-15T00:00:00Z\"}}",  $policyRequest->toJsonString());
+        $this->assertEquals("{\"policy_version\":2,\"playback_policy\":{\"persistent\":true,\"allowed_track_types\":\"ALL\",\"license_duration\":0,\"expire_date\":\"2020-01-15T00:00:00Z\",\"rental_duration\":0,\"playback_duration\":0}}",  $policyRequest->toJsonString());
 
         //duration Setting
         $playbackPolicyRequest = new PlaybackPolicyRequest(true, 160);
 
         $policyRequest = $tokenBuilder->playbackPolicy($playbackPolicyRequest)->build();
 
-        $this->assertEquals("{\"policy_version\":2,\"playback_policy\":{\"persistent\":true,\"license_duration\":160}}",  $policyRequest->toJsonString());
+        $this->assertEquals("{\"policy_version\":2,\"playback_policy\":{\"persistent\":true,\"allowed_track_types\":\"ALL\",\"license_duration\":160,\"rental_duration\":0,\"playback_duration\":0}}",  $policyRequest->toJsonString());
     }
 }
