@@ -31,7 +31,7 @@ class SampleTest extends TestCase
     public function testSimpleRuleSample(){
         $config = include "config/config.php";
         try {
-            $pallyConTokenClient = new DoverunnerDrmTokenClient();
+            $doverunnerTokenClient = new DoverunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -46,7 +46,7 @@ class SampleTest extends TestCase
                 ->build();
 
             /* create token */
-            $result = $pallyConTokenClient
+            $result = $doverunnerTokenClient
                 ->playReady()
                 ->siteId($config["siteId"])
                 ->accessKey($config["accessKey"])
@@ -60,9 +60,9 @@ class SampleTest extends TestCase
                 "policy_version" => 2,
                 "playback_policy" => [
                     "persistent" => true, "allowed_track_types"=>"ALL", "license_duration"=>1000, "rental_duration"=>0,
-                    "playback_duration"=>0]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
+                    "playback_duration"=>0]]), json_encode($doverunnerTokenClient->getPolicy()->toArray()));
 
-            echo "testSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
+            echo "testSimpleRuleSample :".json_encode($doverunnerTokenClient->getPolicy()->toArray()) . "\n";
         }catch (DoverunnerTokenException $e){
             $result = $e->toString();
         }
@@ -76,7 +76,7 @@ class SampleTest extends TestCase
     public function testOfflineSimpleRuleSample(){
         $config = include "config/config.php";
         try {
-            $pallyConTokenClient = new DoverunnerDrmTokenClient();
+            $doverunnerTokenClient = new DoverunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -91,7 +91,7 @@ class SampleTest extends TestCase
                 ->build();
 
             /* create token */
-            $result = $pallyConTokenClient
+            $result = $doverunnerTokenClient
                 ->playReady()
                 ->siteId($config["siteId"])
                 ->accessKey($config["accessKey"])
@@ -104,9 +104,9 @@ class SampleTest extends TestCase
             $this->assertEquals(json_encode([
                 "policy_version" => 2,
                 "playback_policy" => [
-                    "persistent" => true, "allowed_track_types"=>"ALL", "license_duration"=>0, "rental_duration"=>2000, "playback_duration"=>2000]]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
+                    "persistent" => true, "allowed_track_types"=>"ALL", "license_duration"=>0, "rental_duration"=>2000, "playback_duration"=>2000]]), json_encode($doverunnerTokenClient->getPolicy()->toArray()));
 
-            echo "testOfflineSimpleRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
+            echo "testOfflineSimpleRuleSample :".json_encode($doverunnerTokenClient->getPolicy()->toArray()) . "\n";
         }catch (DoverunnerTokenException $e){
             $result = $e->toString();
         }
@@ -122,7 +122,7 @@ class SampleTest extends TestCase
         $config = include "config/config.php";
 
         try {
-            $pallyConTokenClient = new DoverunnerDrmTokenClient();
+            $doverunnerTokenClient = new DoverunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -154,7 +154,7 @@ class SampleTest extends TestCase
                 ->build();
 
             /* create token */
-            $result = $pallyConTokenClient
+            $result = $doverunnerTokenClient
                 ->playReady()
                 ->siteId($config["siteId"])
                 ->accessKey($config["accessKey"])
@@ -220,10 +220,10 @@ class SampleTest extends TestCase
                     ],
                 ]
 
-            ]), json_encode($pallyConTokenClient->getPolicy()->toArray()));
+            ]), json_encode($doverunnerTokenClient->getPolicy()->toArray()));
 
-            $this->assertEquals("custom", $pallyConTokenClient->getResponseFormat());
-            echo "testFullRuleSample :".json_encode($pallyConTokenClient->getPolicy()->toArray()) . "\n";
+            $this->assertEquals("custom", $doverunnerTokenClient->getResponseFormat());
+            echo "testFullRuleSample :".json_encode($doverunnerTokenClient->getPolicy()->toArray()) . "\n";
         }catch (DoverunnerTokenException $e){
             $result = $e->toString();
         }
