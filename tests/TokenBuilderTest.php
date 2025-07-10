@@ -1,9 +1,9 @@
 <?php
 namespace Test;
 
-use Doverunner\Exception\DoverunnerTokenException;
-use Doverunner\PlaybackPolicyRequest;
-use Doverunner\TokenBuilder;
+use DoveRunner\Exception\DoveRunnerTokenException;
+use DoveRunner\PlaybackPolicyRequest;
+use DoveRunner\TokenBuilder;
 use PHPUnit\Framework\TestCase;
 
 class TokenBuilderTest extends TestCase{

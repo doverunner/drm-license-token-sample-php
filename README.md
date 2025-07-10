@@ -1,8 +1,8 @@
-# Doverunner PHP Token Sample (v3.0)
+# DoveRunner Token Sample - PHP (v3.0)
 
 ## Overview
 
-This repository provides server-side sample code that can generate license token for Doverunner multi-DRM service. DRM license tokens are used to authenticate license requests in multi-DRM integration workflows.
+This repository provides server-side sample code that can generate license token for DoveRunner multi-DRM service. DRM license tokens are used to authenticate license requests in multi-DRM integration workflows.
 
 Here's how a license token works in the DRM license issuance process.
 - When a multi-DRM client tries to play DRM content, the client requests a token to the content service platform to acquire DRM license. The service platform verifies that the user requesting the token has permission to the content, and then generates a token data according to the specification.
@@ -14,7 +14,7 @@ Here's how a license token works in the DRM license issuance process.
 - [DoveRunner Docs](https://doverunner.com/docs/)
 
 
-## 환경
+## Environment
 - PHP Version 8.4.7 or later.
 - Install Composer to use autoloader. 
 
@@ -25,19 +25,19 @@ tests/SampleTest.php
 // Require the Composer autoloader.
 require 'vendor/autoload.php';
 
-use Doverunner\Exception\DoverunnerTokenException;
-use Doverunner\DoverunnerDrmTokenClient;
-use Doverunner\TokenBuilder;
-use Doverunner\PlaybackPolicyRequest;
+use DoveRunner\Exception\DoveRunnerTokenException;
+use DoveRunner\DoveRunnerDrmTokenClient;
+use DoveRunner\TokenBuilder;
+use DoveRunner\PlaybackPolicyRequest;
 
 $config = include "config/config.php";
 
 try{
     // TokenClient constructor
-    $DoverunnerTokenClient = new DoverunnerDrmTokenClient();
+    $DoveRunnerTokenClient = new DoveRunnerDrmTokenClient();
     
     /* Create playback policy rule */
-    // https://doverunner.com/docs/en/multidrm/license/license-token/#playback-policy
+    // https://doverunner.com/docs/content-security/multi-drm/license/license-token/#playback_policy
     
     //persistent : true / duration : 600
     $playbackPolicyRequest = new PlaybackPolicyRequest(true, 600);
@@ -48,7 +48,7 @@ try{
     //ExternalKey: ExternalkeyRequest.php
     
     /* Build rule */
-    //https://doverunner.com/docs/en/multidrm/license/license-token/#token-rule-json
+    //https://doverunner.com/docs/content-security/multi-drm/license/license-token/#token-json-format
     $policyRequest = (new TokenBuilder)
         ->playbackPolicy($playbackPolicyRequest)
     //->securityPolicy($securityPolicyRequest)
@@ -56,8 +56,8 @@ try{
     
     /* Create token */
     // siteId, accessKey, siteKey, userId, cid, policy is required.
-    // https://doverunner.com/docs/en/multidrm/license/license-token/#token-json-example
-    $result = $DoverunnerTokenClient
+    // https://doverunner.com/docs/content-security/multi-drm/license/license-token/#token-json-example
+    $result = $DoveRunnerTokenClient
         ->playReady()
         ->siteId($config["siteId"])
         ->accessKey($config["accessKey"])
@@ -67,7 +67,7 @@ try{
         ->policy($policyRequest)
         ->execute();    
     
-}catch (DoverunnerTokenException $e){
+}catch (DoveRunnerTokenException $e){
     $result = $e->toString();
 }
     echo $result;
@@ -80,4 +80,4 @@ ExternalKeyRequest
 
 ## Support
 
-If you have any questions or issues with the token sample, please create a ticket at [Doverunner Helpdesk](https://support.doverunner.com) website.
+If you have any questions or issues with the token sample, please create a ticket at [DoveRunner Helpdesk](https://support.doverunner.com) website.

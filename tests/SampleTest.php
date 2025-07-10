@@ -1,21 +1,21 @@
 <?php
 namespace Test;
 
-use Doverunner\Exception\DoverunnerTokenException;
-use Doverunner\ExternalKeyRequest;
-use Doverunner\HlsAesRequest;
-use Doverunner\MpegCencRequest;
-use Doverunner\NcgRequest;
-use Doverunner\OutputProtectRequest;
-use Doverunner\DoverunnerDrmTokenClient;
-use Doverunner\PlaybackPolicyRequest;
-use Doverunner\SecurityPolicyFairplay;
-use Doverunner\SecurityPolicyNcg;
-use Doverunner\SecurityPolicyPlayReady;
-use Doverunner\SecurityPolicyRequest;
-use Doverunner\SecurityPolicyWidevine;
-use Doverunner\SecurityPolicyWiseplay;
-use Doverunner\TokenBuilder;
+use DoveRunner\Exception\DoveRunnerTokenException;
+use DoveRunner\ExternalKeyRequest;
+use DoveRunner\HlsAesRequest;
+use DoveRunner\MpegCencRequest;
+use DoveRunner\NcgRequest;
+use DoveRunner\OutputProtectRequest;
+use DoveRunner\DoveRunnerDrmTokenClient;
+use DoveRunner\PlaybackPolicyRequest;
+use DoveRunner\SecurityPolicyFairplay;
+use DoveRunner\SecurityPolicyNcg;
+use DoveRunner\SecurityPolicyPlayReady;
+use DoveRunner\SecurityPolicyRequest;
+use DoveRunner\SecurityPolicyWidevine;
+use DoveRunner\SecurityPolicyWiseplay;
+use DoveRunner\TokenBuilder;
 use PHPUnit\Framework\TestCase;
 
 class SampleTest extends TestCase
@@ -31,7 +31,7 @@ class SampleTest extends TestCase
     public function testSimpleRuleSample(){
         $config = include "config/config.php";
         try {
-            $doverunnerTokenClient = new DoverunnerDrmTokenClient();
+            $doverunnerTokenClient = new DoveRunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -63,7 +63,7 @@ class SampleTest extends TestCase
                     "playback_duration"=>0]]), json_encode($doverunnerTokenClient->getPolicy()->toArray()));
 
             echo "testSimpleRuleSample :".json_encode($doverunnerTokenClient->getPolicy()->toArray()) . "\n";
-        }catch (DoverunnerTokenException $e){
+        }catch (DoveRunnerTokenException $e){
             $result = $e->toString();
         }
         echo $result . "\n";;
@@ -76,7 +76,7 @@ class SampleTest extends TestCase
     public function testOfflineSimpleRuleSample(){
         $config = include "config/config.php";
         try {
-            $doverunnerTokenClient = new DoverunnerDrmTokenClient();
+            $doverunnerTokenClient = new DoveRunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -107,7 +107,7 @@ class SampleTest extends TestCase
                     "persistent" => true, "allowed_track_types"=>"ALL", "license_duration"=>0, "rental_duration"=>2000, "playback_duration"=>2000]]), json_encode($doverunnerTokenClient->getPolicy()->toArray()));
 
             echo "testOfflineSimpleRuleSample :".json_encode($doverunnerTokenClient->getPolicy()->toArray()) . "\n";
-        }catch (DoverunnerTokenException $e){
+        }catch (DoveRunnerTokenException $e){
             $result = $e->toString();
         }
         echo $result . "\n";
@@ -122,7 +122,7 @@ class SampleTest extends TestCase
         $config = include "config/config.php";
 
         try {
-            $doverunnerTokenClient = new DoverunnerDrmTokenClient();
+            $doverunnerTokenClient = new DoveRunnerDrmTokenClient();
 
             /** --------------------------------------------------------
              * Sample Data
@@ -224,7 +224,7 @@ class SampleTest extends TestCase
 
             $this->assertEquals("custom", $doverunnerTokenClient->getResponseFormat());
             echo "testFullRuleSample :".json_encode($doverunnerTokenClient->getPolicy()->toArray()) . "\n";
-        }catch (DoverunnerTokenException $e){
+        }catch (DoveRunnerTokenException $e){
             $result = $e->toString();
         }
 
