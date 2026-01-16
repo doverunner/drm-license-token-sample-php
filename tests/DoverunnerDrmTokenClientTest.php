@@ -6,21 +6,21 @@ error_reporting(E_ALL);
 ini_set('display_errors', "1");
 
 
-use DoveRunner\SecurityPolicyWidevine;
+use Doverunner\SecurityPolicyWidevine;
 use PHPUnit\Framework\TestCase;
 
-use DoveRunner\Exception\DoveRunnerTokenException;
-use DoveRunner\DoveRunnerDrmTokenClient;
-use DoveRunner\PlaybackPolicyRequest;
-use DoveRunner\SecurityPolicyRequest;
-use DoveRunner\ExternalKeyRequest;
-use DoveRunner\HlsAesRequest;
-use DoveRunner\MpegCencRequest;
-use DoveRunner\NcgRequest;
-use DoveRunner\TokenBuilder;
+use Doverunner\Exception\DoverunnerTokenException;
+use Doverunner\DoverunnerDrmTokenClient;
+use Doverunner\PlaybackPolicyRequest;
+use Doverunner\SecurityPolicyRequest;
+use Doverunner\ExternalKeyRequest;
+use Doverunner\HlsAesRequest;
+use Doverunner\MpegCencRequest;
+use Doverunner\NcgRequest;
+use Doverunner\TokenBuilder;
 
 
-class DoveRunnerDrmTokenClientTest extends TestCase
+class DoverunnerDrmTokenClientTest extends TestCase
 {
     private $_config;
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -30,65 +30,65 @@ class DoveRunnerDrmTokenClientTest extends TestCase
     }
 
     public function testDrmType(){
-        $DoveRunnerTokenDrmClient = new DoveRunnerDrmTokenClient();
+        $DoverunnerTokenDrmClient = new DoverunnerDrmTokenClient();
 
-        $DoveRunnerTokenDrmClient->playready();
-        $this->assertEquals("PlayReady", $DoveRunnerTokenDrmClient->getDrmType());
-        $DoveRunnerTokenDrmClient->widevine();
-        $this->assertEquals("Widevine", $DoveRunnerTokenDrmClient->getDrmType());
-        $DoveRunnerTokenDrmClient->fairplay();
-        $this->assertEquals("FairPlay", $DoveRunnerTokenDrmClient->getDrmType());
-        $DoveRunnerTokenDrmClient->ncg();
-        $this->assertEquals("NCG", $DoveRunnerTokenDrmClient->getDrmType());
-        $DoveRunnerTokenDrmClient->wiseplay();
-        $this->assertEquals("Wiseplay", $DoveRunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->playready();
+        $this->assertEquals("PlayReady", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->widevine();
+        $this->assertEquals("Widevine", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->fairplay();
+        $this->assertEquals("FairPlay", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->ncg();
+        $this->assertEquals("NCG", $DoverunnerTokenDrmClient->getDrmType());
+        $DoverunnerTokenDrmClient->wiseplay();
+        $this->assertEquals("Wiseplay", $DoverunnerTokenDrmClient->getDrmType());
     }
 
     public function testRequireValue(){
-        $DoveRunnerTokenDrmClient = new DoveRunnerDrmTokenClient();
+        $DoverunnerTokenDrmClient = new DoverunnerDrmTokenClient();
         try{
-            $DoveRunnerTokenDrmClient->execute();
-        }catch (DoveRunnerTokenException $e){
+            $DoverunnerTokenDrmClient->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode() . "\n";
             $this->assertEquals(1000, $e->getCode());
         }
 
         try{
-            $DoveRunnerTokenDrmClient->userId("testUser")->execute();
-        }catch (DoveRunnerTokenException $e){
+            $DoverunnerTokenDrmClient->userId("testUser")->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1001, $e->getCode());
         }
 
         try{
-            $DoveRunnerTokenDrmClient->cid("test-cid")->execute();
-        }catch (DoveRunnerTokenException $e){
+            $DoverunnerTokenDrmClient->cid("test-cid")->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1002, $e->getCode());
         }
 
         try{
-            $DoveRunnerTokenDrmClient->siteId($this->_config["siteId"])->execute();
-        }catch (DoveRunnerTokenException $e){
+            $DoverunnerTokenDrmClient->siteId($this->_config["siteId"])->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
         try{
-            $DoveRunnerTokenDrmClient->siteId($this->_config["accessKey"])->execute();
-        }catch (DoveRunnerTokenException $e){
+            $DoverunnerTokenDrmClient->siteId($this->_config["accessKey"])->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
         try{
-            $DoveRunnerTokenDrmClient->siteId($this->_config["siteKey"])->execute();
-        }catch (DoveRunnerTokenException $e){
+            $DoverunnerTokenDrmClient->siteId($this->_config["siteKey"])->execute();
+        }catch (DoverunnerTokenException $e){
             echo $e->getCode(). "\n";
             $this->assertEquals(1003, $e->getCode());
         }
     }
     public function testFullRule()
     {
-        $DoveRunnerTokenDrmClient = new DoveRunnerDrmTokenClient();
+        $DoverunnerTokenDrmClient = new DoverunnerDrmTokenClient();
 
         $playbackPolicyRequest = new PlaybackPolicyRequest(true, 0, "2020-01-15T00:00:00Z");
 
@@ -110,7 +110,7 @@ class DoveRunnerDrmTokenClientTest extends TestCase
             ->externalKey($externalKeyRequest)
             ->build();
 
-        $DoveRunnerTokenDrmClient->playready()
+        $DoverunnerTokenDrmClient->playready()
             ->siteId($this->_config["siteId"]);
 
         echo("testFullRule : ".$policyRequest->toJsonString());
