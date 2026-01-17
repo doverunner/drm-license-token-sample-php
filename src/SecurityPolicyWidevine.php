@@ -1,9 +1,9 @@
 <?php
 
-namespace DoveRunner;
+namespace Doverunner;
 
 
-use DoveRunner\Exception\DoveRunnerTokenException;
+use Doverunner\Exception\DoverunnerTokenException;
 
 class SecurityPolicyWidevine
 {
@@ -22,7 +22,7 @@ class SecurityPolicyWidevine
         if(is_numeric($securityLevel)){
             $this->_securityLevel = $securityLevel;
         }else{
-            throw new DoveRunnerTokenException(1022);
+            throw new DoverunnerTokenException(1022);
         }
         if(!empty($requiredHdcpVersion)){
             $this->_requiredHdcpVersion = $requiredHdcpVersion;
@@ -45,7 +45,7 @@ class SecurityPolicyWidevine
         if(!empty($allowTestDevice)){
             $this->_allowTestDevice = $allowTestDevice;
         }else{
-            throw new DoveRunnerTokenException(1023);
+            throw new DoverunnerTokenException(1023);
         }
     }
 

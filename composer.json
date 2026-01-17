@@ -1,14 +1,14 @@
 {
     "name": "doverunner/token-sample-php",
-    "version": "3.0.0",
-    "description": "DoveRunner token sample by php",
+    "version": "3.0.1",
+    "description": "Doverunner token sample by php",
     "type": "library",
     "require-dev": {
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4":{
-          "DoveRunner\\": "src"
+          "Doverunner\\": "src"
         }
     },
     "autoload-dev": {
@@ -18,7 +18,7 @@
     },
     "authors": [
         {
-            "name": "DoveRunner",
+            "name": "Doverunner",
             "email": "contentsecurity_server@doverunner.com"
         }
     ],

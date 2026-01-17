@@ -1,8 +1,8 @@
 <?php
 
-namespace DoveRunner;
+namespace Doverunner;
 
-use DoveRunner\Exception\DoveRunnerTokenException;
+use Doverunner\Exception\DoverunnerTokenException;
 use function PHPUnit\Framework\isEmpty;
 
 class SecurityPolicyWiseplay
@@ -15,13 +15,13 @@ class SecurityPolicyWiseplay
         if(is_numeric($securityLevel)){
             $this->_securityLevel = $securityLevel;
         }else{
-            throw new DoveRunnerTokenException(1055);
+            throw new DoverunnerTokenException(1055);
         }
 
         if(!empty($_outputControl)){
             $this->_outputControl = $_outputControl;
         } else {
-            throw new DoveRunnerTokenException(1056);
+            throw new DoverunnerTokenException(1056);
         }
     }
 

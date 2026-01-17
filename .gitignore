@@ -9,3 +9,6 @@
 
 # config
 /tests/config/config.php
+
+# cache
+.phpunit.result.cache

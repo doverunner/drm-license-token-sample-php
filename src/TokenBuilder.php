@@ -1,5 +1,5 @@
 <?php
-namespace DoveRunner;
+namespace Doverunner;
 
 class TokenBuilder
 {

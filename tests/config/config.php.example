@@ -1,0 +1,14 @@
+# DRM token sample php Configuration
+# Copy this file to config.php and fill in your credentials
+
+<?php
+return [
+    // DoveRunner API Credentials (required)
+    'siteId'=> '',
+    'siteKey'=> '',
+    'accessKey'=> '',
+
+    // User and Content Identifiers (required)
+    'userId'=> 'test-user',
+    'cid'=> 'test-cid'
+];

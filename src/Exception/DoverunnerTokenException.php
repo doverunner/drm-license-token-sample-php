@@ -1,9 +1,9 @@
 <?php
-namespace DoveRunner\Exception;
+namespace Doverunner\Exception;
 
 use Exception;
 
-class DoveRunnerTokenException extends Exception{
+class DoverunnerTokenException extends Exception{
     private $_errorCode;
 
     public function __construct($code = 0, Exception $previous = null) {

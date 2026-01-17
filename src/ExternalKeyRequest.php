@@ -1,7 +1,7 @@
 <?php
-namespace DoveRunner;
+namespace Doverunner;
 
-use DoveRunner\Exception\DoveRunnerTokenException;
+use Doverunner\Exception\DoverunnerTokenException;
 
 class ExternalKeyRequest
 {
@@ -58,7 +58,7 @@ class ExternalKeyRequest
     }
 
     /**
-     * @return array|\DoveRunner\MpegCencRequest|null
+     * @return array|\Doverunner\MpegCencRequest|null
      */
     public function getMpegCenc()
     {
@@ -66,14 +66,14 @@ class ExternalKeyRequest
     }
 
     /**
-     * @param array|\DoveRunner\MpegCencRequest|null $mpegCenc
+     * @param array|\Doverunner\MpegCencRequest|null $mpegCenc
      */
     public function setMpegCenc($mpegCenc)
     {
         if(is_array($mpegCenc)){
             $this->_mpegCenc = $mpegCenc;
         }else{
-            throw new DoveRunnerTokenException(1019);
+            throw new DoverunnerTokenException(1019);
         }
 
     }
@@ -83,7 +83,7 @@ class ExternalKeyRequest
     }
 
     /**
-     * @return array|\DoveRunner\HlsAesRequest|null
+     * @return array|\Doverunner\HlsAesRequest|null
      */
     public function getHlsAes()
     {
@@ -91,14 +91,14 @@ class ExternalKeyRequest
     }
 
     /**
-     * @param array|\DoveRunner\HlsAesRequest|null $hlsAes
+     * @param array|\Doverunner\HlsAesRequest|null $hlsAes
      */
     public function setHlsAes($hlsAes)
     {
         if(is_array($hlsAes)){
             $this->_hlsAes = $hlsAes;
         }else{
-            throw new DoveRunnerTokenException(1020);
+            throw new DoverunnerTokenException(1020);
         }
     }
 
@@ -107,7 +107,7 @@ class ExternalKeyRequest
     }
 
     /**
-     * @return array|\DoveRunner\NcgRequest|null
+     * @return array|\Doverunner\NcgRequest|null
      */
     public function getNcg()
     {
@@ -115,7 +115,7 @@ class ExternalKeyRequest
     }
 
     /**
-     * @param array|\DoveRunner\NcgRequest|null $ncg
+     * @param array|\Doverunner\NcgRequest|null $ncg
      */
     public function setNcg(NcgRequest $ncg)
     {
