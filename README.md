@@ -16,7 +16,35 @@ Here's how a license token works in the DRM license issuance process.
 
 ## Environment
 - PHP Version 8.4.7 or later.
-- Install Composer to use autoloader. 
+- Install Composer to use autoloader.
+
+## Configuration
+
+Before running the sample code, you need to configure your DoveRunner credentials.
+
+1. Copy the example configuration file:
+   ```bash
+   cp tests/config/config.php.example tests/config/config.php
+   ```
+
+2. Edit `tests/config/config.php` and fill in your credentials:
+   ```php
+   <?php
+   return [
+       // DoveRunner API Credentials (required)
+       'siteId'=> 'your-site-id',
+       'siteKey'=> 'your-site-key',
+       'accessKey'=> 'your-access-key',
+
+       // User and Content Identifiers (required)
+       'userId'=> 'test-user',
+       'cid'=> 'test-cid'
+   ];
+   ```
+
+3. Get your credentials from [DoveRunner Console](https://console.doverunner.com)
+
+**Note**: `config.php` is excluded from version control for security. Never commit sensitive credentials to the repository.
 
 ## Quick Example
 tests/SampleTest.php
@@ -25,16 +53,16 @@ tests/SampleTest.php
 // Require the Composer autoloader.
 require 'vendor/autoload.php';
 
-use DoveRunner\Exception\DoveRunnerTokenException;
-use DoveRunner\DoveRunnerDrmTokenClient;
-use DoveRunner\TokenBuilder;
-use DoveRunner\PlaybackPolicyRequest;
+use Doverunner\Exception\DoverunnerTokenException;
+use Doverunner\DoverunnerDrmTokenClient;
+use Doverunner\TokenBuilder;
+use Doverunner\PlaybackPolicyRequest;
 
 $config = include "config/config.php";
 
 try{
     // TokenClient constructor
-    $DoveRunnerTokenClient = new DoveRunnerDrmTokenClient();
+    $DoverunnerTokenClient = new DoverunnerDrmTokenClient();
     
     /* Create playback policy rule */
     // https://doverunner.com/docs/content-security/multi-drm/license/license-token/#playback_policy
@@ -57,17 +85,17 @@ try{
     /* Create token */
     // siteId, accessKey, siteKey, userId, cid, policy is required.
     // https://doverunner.com/docs/content-security/multi-drm/license/license-token/#token-json-example
-    $result = $DoveRunnerTokenClient
+    $result = $DoverunnerTokenClient
         ->playReady()
         ->siteId($config["siteId"])
         ->accessKey($config["accessKey"])
         ->siteKey($config["siteKey"])
-        ->userId("testUser")
-        ->cid("testCID")
+        ->userId($config["userId"])
+        ->cid($config["cid"])
         ->policy($policyRequest)
         ->execute();    
     
-}catch (DoveRunnerTokenException $e){
+}catch (DoverunnerTokenException $e){
     $result = $e->toString();
 }
     echo $result;

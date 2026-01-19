@@ -1,8 +1,8 @@
 <?php
-namespace DoveRunner;
+namespace Doverunner;
 
 
-interface DoveRunnerDrmToken
+interface DoverunnerDrmToken
 {
     public function playready();
     public function widevine();
