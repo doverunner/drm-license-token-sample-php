@@ -1,4 +1,4 @@
-# DoveRunner Token Sample - PHP (v3.0)
+# DoveRunner Token Sample - PHP (v3.1.0)
 
 ## Overview
 

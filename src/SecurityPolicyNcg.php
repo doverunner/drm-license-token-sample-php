@@ -20,7 +20,7 @@ class SecurityPolicyNcg
                 throw new DoverunnerTokenException(1036);
             }
         }
-        if (!is_null($allowMobileAbnormalDevice)) {
+        if (!is_null($allowExternalDisplay)) {
             if (is_bool($allowExternalDisplay)) {
                 $this->_allowExternalDisplay = $allowExternalDisplay;
             } else {

@@ -10,9 +10,9 @@ class PolicyRequest
     public $_securityPolicyArr;
     public $_externalKey;
 
-    public function __construct(PlaybackPolicyRequest $playbackPolicyRequest=null
+    public function __construct(?PlaybackPolicyRequest $playbackPolicyRequest=null
                                     , $securityPolicyArr=null
-                                    , ExternalKeyRequest $externalKeyRequest=null)
+                                    , ?ExternalKeyRequest $externalKeyRequest=null)
     {
         if(!empty($playbackPolicyRequest)) {
             $this->_playbackPolicy =$playbackPolicyRequest ;
