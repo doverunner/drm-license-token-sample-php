@@ -6,7 +6,7 @@ use Exception;
 class DoverunnerTokenException extends Exception{
     private $_errorCode;
 
-    public function __construct($code = 0, Exception $previous = null) {
+    public function __construct($code = 0, ?Exception $previous = null) {
         $this->_errorCode = include "ErrorCode.php";
         parent::__construct($this->_errorCode[$code], $code, $previous);
 

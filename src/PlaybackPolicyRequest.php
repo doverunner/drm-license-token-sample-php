@@ -44,7 +44,7 @@ class PlaybackPolicyRequest {
             }
         }
         if(!empty($expireDate)) {
-            if(preg_match('/[0-9]{4}-[0,1][0-9]-[0-5][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]Z/', $expireDate)){
+            if(preg_match('/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z$/', $expireDate)){
                 $this->_expireDate = $expireDate;
             }else{
                 throw new DoverunnerTokenException(1011);
@@ -197,4 +197,3 @@ class PlaybackPolicyRequest {
     }
 
 }
-?>

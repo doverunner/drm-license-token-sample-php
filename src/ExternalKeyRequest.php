@@ -103,7 +103,7 @@ class ExternalKeyRequest
     }
 
     public function pushHlsAes(HlsAesRequest $hlsAes){
-        array_push($this->_HlsAes, $hlsAes);
+        array_push($this->_hlsAes, $hlsAes);
     }
 
     /**

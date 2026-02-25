@@ -14,11 +14,11 @@ class SecurityPolicyRequest
     public $_wiseplay;
 
     public function __construct($trackType="ALL"
-                        , SecurityPolicyWidevine $securityPolicyWidevine=null
-                        , SecurityPolicyPlayReady $securityPolicyPlayReady=null
-                        , SecurityPolicyFairPlay $securityPolicyFairPlay=null
-                        , SecurityPolicyNcg $securityPolicyNcg=null
-                        , SecurityPolicyWiseplay $securityPolicyWiseplay=null)
+                        , ?SecurityPolicyWidevine $securityPolicyWidevine=null
+                        , ?SecurityPolicyPlayReady $securityPolicyPlayReady=null
+                        , ?SecurityPolicyFairPlay $securityPolicyFairPlay=null
+                        , ?SecurityPolicyNcg $securityPolicyNcg=null
+                        , ?SecurityPolicyWiseplay $securityPolicyWiseplay=null)
     {
         $this->_trackType = $trackType;
         if(!empty($securityPolicyWidevine)){

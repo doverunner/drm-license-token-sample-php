@@ -1,6 +1,6 @@
 {
     "name": "doverunner/token-sample-php",
-    "version": "3.0.1",
+    "version": "3.1.0",
     "description": "Doverunner token sample by php",
     "type": "library",
     "require-dev": {
